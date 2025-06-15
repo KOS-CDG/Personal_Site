@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dhale Caparros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --text: #f5f5f5;
+      --accent: #d4af37;
+      --card-bg: #1a1a1a;
+    }
+
+    body.light {
+      --bg: #ffffff;
+      --text: #111111;
+      --accent: #c9a000;
+      --card-bg: #f3f3f3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    header {
+      background: url('https://via.placeholder.com/1600x800/000000/FFFFFF?text=Welcome+to+Dhale+Caparros+Website') no-repeat center center;
+      background-size: cover;
+      padding: 120px 20px;
+      text-align: center;
+      color: var(--text);
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+
+    header p {
+      font-size: 1.3rem;
+      color: var(--accent);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background-color: #111;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #f5f5f5;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    #themeToggle {
+      margin-left: auto;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    section {
+      padding: 80px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    #about img {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid var(--accent);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 30px;
+      background-color: var(--accent);
+      color: var(--bg);
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #fff;
+      color: #000;
+    }
+
+    footer {
+      background-color: #111;
+      color: #aaa;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 0.9rem;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      #about img {
+        width: 160px;
+        height: 160px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+
+      #themeToggle {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button id="themeToggle">Switch Theme</button>
+  </nav>
+
+  <header>
+    <h1>Dhale Caparros</h1>
+    <p id="typed" style="font-size: 1.2rem; color: var(--accent); height: 24px;"></p>
+  </header>
+
+  <section id="about" class="fade-in">
+    <h2>About Me</h2>
+    <div style="text-align: center;">
+      <img src="0209.jpg" alt="Profile Picture">
+    </div>
+    <p>
+      Hello! I'm <strong>Dhale Caparros</strong>, a 16-year-old with a passion for web development and modern digital design. I’ve always been fascinated by how websites work how a few lines of code can turn into something beautiful, functional, and meaningful.
+    </p>
+    <p>
+      I specialize in creating clean, elegant one-page designs inspired by timeless brands like Rolex. But don’t let the minimalist style fool you I love adding little touches that bring a site to life. Whether it’s animations, theme toggles, or smooth scrolling, I aim to make every website feel like a journey.
+    </p>
+    <p>
+      I’m currently learning more about JavaScript and responsive design, and I’m working toward building my own full-stack apps someday. Outside of coding, I enjoy music, trading, and networking with people who share my curiosity for editing websites and investing.
+    </p>
+    <p>
+      Thanks for visiting my personal space on the web more exciting updates are coming soon!
+    </p>
+    <a href="https://www.facebook.com/share/19FgMigEpA/" target="_blank" class="btn">Let’s Connect on Facebook</a>
+  </section>
+
+  <section id="music" class="fade-in" style="text-align: center; margin-top: 50px;">
+  <h2>Background Music</h2>
+  <audio controls>
+    <source src="music.mp4" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <p style="font-size: 0.9rem; color: var(--text); margin-top: 10px;">
+    Feel the vibe while browsing 🕶️🎶
+  </p>
+</section>
+ 
+<section id="portfolio" class="fade-in">
+    <h2>My Projects</h2>
+    <p style="text-align: center; font-size: 1.2rem; color: var(--text); margin-top: 40px;">
+      I'm currently crafting something special, <strong>stay tuned for exciting updates and future projects!</strong>
+    </p>
+  </section>
+
+  <section id="contact" class="fade-in">
+    <h2>Contact</h2>
+    <p>You can reach me anytime at:</p>
+    <p><a href="mailto:kos470902@gmail.com" class="btn">kos470902@gmail.com</a></p>
+  </section>
+
+  <footer>
+    &copy; 2025 Dhale Caparros. Inspired by timeless design.
+  </footer>
+
+  <script>
+    // Scroll fade-in
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold: 0.1 };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, appearOptions);
+    faders.forEach(fader => appearOnScroll.observe(fader));
+
+    // Theme toggle
+    const toggleBtn = document.getElementById('themeToggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      toggleBtn.textContent = document.body.classList.contains('light') ? 'Dark Mode' : 'Light Mode';
+    });
+
+    // Typing Effect
+    const phrases = ["Web Developer", "Creative Thinker", "Modern Designer", "Coding Enthusiast"];
+    let i = 0, j = 0, currentPhrase = [], isDeleting = false, isEnd = false;
+
+    function loop() {
+      const typedElement = document.getElementById('typed');
+      isEnd = false;
+      typedElement.innerHTML = currentPhrase.join("");
+
+      if (i < phrases.length) {
+        if (!isDeleting && j <= phrases[i].length) {
+          currentPhrase.push(phrases[i][j]);
+          j++;
+          typedElement.innerHTML = currentPhrase.join("");
+        }
+
+        if (isDeleting && j <= phrases[i].length) {
+          currentPhrase.pop(phrases[i][j]);
+          j--;
+          typedElement.innerHTML = currentPhrase.join("");
+        }
+
+        if (j == phrases[i].length) {
+          isEnd = true;
+          isDeleting = true;
+        }
+
+        if (isDeleting && j === 0) {
+          currentPhrase = [];
+          isDeleting = false;
+          i++;
+          if (i === phrases.length) i = 0;
+        }
+      }
+      const spedUp = Math.random() * (80 - 50) + 50;
+      const normalSpeed = Math.random() * (300 - 200) + 200;
+      const time = isEnd ? 1200 : isDeleting ? spedUp : normalSpeed;
+      setTimeout(loop, time);
+    }
+
+    document.addEventListener("DOMContentLoaded", loop);
+  </script>
+</body>
+</html>
