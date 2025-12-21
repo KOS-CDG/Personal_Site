@@ -2,32 +2,265 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>My Portfolio | Developer · Analyst · Trader</title>
+  <title>Dhale Caparros | Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Primary stylesheet -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ================= VARIABLES ================= */
+    :root {
+      /* Dark Theme Defaults */
+      --bg-body: #0b1120;
+      --bg-surface: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8; /* Sky Blue */
+      --accent: #fbbf24;  /* Gold for trading */
+      --nav-height: 70px;
+      --radius: 12px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .theme-light {
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+    }
+
+    /* ================= RESET & BASE ================= */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--nav-height); /* Prevents nav from covering titles */
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    a { text-decoration: none; color: inherit; transition: var(--transition); }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ================= HEADER ================= */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      background: rgba(11, 17, 32, 0.8);
+      backdrop-filter: blur(12px); /* Glass effect */
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.3s;
+    }
+    .theme-light .site-header { background: rgba(255, 255, 255, 0.85); border-bottom: 1px solid rgba(0,0,0,0.05); }
+
+    .header-inner { display: flex; justify-content: space-between; align-items: center; }
+
+    .logo { font-weight: 800; font-size: 1.25rem; display: flex; align-items: center; gap: 10px; }
+    .logo-text span { color: var(--primary); }
+
+    /* Desktop Nav */
+    .main-nav ul { display: flex; gap: 2rem; }
+    .main-nav a { font-weight: 500; font-size: 0.95rem; position: relative; color: var(--text-muted); }
+    .main-nav a:hover, .main-nav a.active { color: var(--primary); }
+    
+    /* Active Link Underline Animation */
+    .main-nav a::after {
+      content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 2px;
+      background: var(--primary); transition: width 0.3s;
+    }
+    .main-nav a.active::after { width: 100%; }
+
+    .header-actions { display: flex; align-items: center; gap: 1rem; }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; cursor: pointer; border: none; transition: var(--transition);
+    }
+    .primary-btn { background: var(--primary); color: #0f172a; }
+    .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px -5px rgba(56, 189, 248, 0.4); }
+    .ghost-btn { background: transparent; border: 1px solid var(--text-muted); color: var(--text-main); }
+    .ghost-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Theme Toggle */
+    .theme-toggle { background: transparent; border: 1px solid var(--text-muted); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition); }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); transform: rotate(15deg); }
+
+    /* Mobile Nav Toggle */
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .nav-toggle span { width: 25px; height: 2px; background: var(--text-main); transition: 0.3s; }
+
+    /* ================= HERO SECTION ================= */
+    .hero-section { min-height: 90vh; display: flex; align-items: center; padding: 4rem 0; }
+    
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    /* Profile Card */
+    .hero-aside { display: flex; flex-direction: column; gap: 1rem; }
+    .profile-card {
+      background: var(--bg-surface);
+      padding: 2rem;
+      border-radius: var(--radius);
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .profile-photo-frame {
+      width: 140px; height: 140px; margin: 0 auto 1.5rem;
+      border-radius: 50%; overflow: hidden;
+      border: 3px solid var(--primary); padding: 3px;
+    }
+    .profile-photo-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+    /* Tags */
+    .hero-tag {
+      font-size: 0.9rem; padding: 0.8rem; border-radius: var(--radius);
+      background: rgba(255,255,255,0.03); border-left: 4px solid var(--text-muted);
+    }
+    .hero-tag-dev { border-color: var(--primary); }
+    .hero-tag-trader { border-color: var(--accent); }
+
+    /* Hero Text */
+    .hero-title {
+      font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem;
+      background: linear-gradient(to right, var(--text-main), var(--text-muted));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; }
+    .hero-actions { display: flex; gap: 1rem; margin-bottom: 2rem; }
+
+    .hero-highlights { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+    .highlight-pill {
+      font-size: 0.8rem; background: rgba(56, 189, 248, 0.1); color: var(--primary);
+      padding: 0.4rem 1rem; border-radius: 20px;
+    }
+
+    /* ================= GENERAL SECTIONS ================= */
+    .section { padding: 6rem 0; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-header h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .section-header p { color: var(--text-muted); }
+
+    /* About */
+    .about-content {
+      background: var(--bg-surface); padding: 3rem; border-radius: var(--radius);
+      max-width: 800px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.05);
+    }
+    .about-content p { margin-bottom: 1rem; color: var(--text-muted); }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;
+    }
+    .skill-card {
+      background: var(--bg-surface); padding: 2rem; border-radius: var(--radius);
+      transition: var(--transition); border: 1px solid transparent;
+    }
+    .skill-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+    .skill-card h3 { margin-bottom: 1rem; }
+    .skill-list li { margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted); padding-left: 1rem; position: relative; }
+    .skill-list li::before { content: "▹"; color: var(--primary); position: absolute; left: 0; }
+
+    /* Timeline */
+    .timeline { max-width: 800px; margin: 0 auto; border-left: 2px solid var(--bg-surface); padding-left: 2rem; }
+    .timeline-item { position: relative; margin-bottom: 3rem; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -2.6rem; top: 5px; width: 1rem; height: 1rem;
+      background: var(--primary); border-radius: 50%; border: 4px solid var(--bg-body);
+    }
+    .timeline-tag { font-family: monospace; color: var(--accent); margin-bottom: 0.5rem; display: block; }
+
+    /* Contact */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    input, textarea {
+      width: 100%; padding: 1rem; background: var(--bg-surface); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; color: var(--text-main); margin-bottom: 1.5rem; font-family: inherit;
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--primary); }
+
+    .social-list li { display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .account-link { color: var(--primary); font-weight: 600; }
+
+    /* Scroll To Top Button */
+    #scrollTopBtn {
+      position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: #0f1120;
+      width: 50px; height: 50px; border-radius: 50%; border: none; font-size: 1.5rem;
+      cursor: pointer; opacity: 0; visibility: hidden; transition: var(--transition); z-index: 900;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    #scrollTopBtn.show { opacity: 1; visibility: visible; }
+
+    /* ================= MOBILE OPTIMIZATION ================= */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-aside { max-width: 400px; margin: 0 auto; width: 100%; order: 2; /* Text first on mobile usually looks better, but keeping aside bottom here */ }
+      .hero-text { order: 1; margin-bottom: 2rem; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      
+      .main-nav {
+        position: fixed; top: var(--nav-height); left: 0; width: 100%;
+        background: var(--bg-surface); border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 2rem; transform: translateY(-150%); transition: transform 0.4s ease;
+        z-index: 999;
+      }
+      .main-nav.nav-open { transform: translateY(0); }
+      .main-nav ul { flex-direction: column; text-align: center; gap: 1.5rem; }
+      
+      .hero-title { font-size: 2.5rem; }
+      .section { padding: 4rem 0; }
+    }
+
+    /* Animation Classes */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+  </style>
 </head>
 <body class="theme-dark">
-  <!-- ================= Header & Navigation ================= -->
+
+  <button id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+
   <header class="site-header">
     <div class="container header-inner">
       <div class="logo">
-        <!-- Larger logo image on the top-left -->
-        <img src="logo.png" alt="Your logo" class="logo-image" />
-        <span class="logo-text">My Portfolio</span>
+        <span class="logo-text">My<span>Portfolio</span></span>
       </div>
 
       <div class="header-actions">
-        <!-- Theme toggle button -->
-        <button class="theme-toggle" type="button" aria-label="Toggle light and dark theme">
-          <span class="theme-toggle-icon">🌙</span>
-        </button>
-
-        <!-- Mobile nav toggle -->
-        <button class="nav-toggle" aria-label="Toggle navigation">
-          <span class="nav-toggle-line"></span>
-          <span class="nav-toggle-line"></span>
+        <button class="theme-toggle" type="button">🌙</button>
+        <button class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
 
@@ -43,272 +276,139 @@
     </div>
   </header>
 
-  <!-- ================= Main Content ================= -->
   <main>
-    <!-- ========== Hero / Introduction ========== -->
-    <section id="hero" class="section hero-section">
+    <section id="hero" class="hero-section reveal">
       <div class="container hero-inner">
-        <!-- Larger profile card on the left side -->
         <div class="hero-aside">
           <div class="profile-card">
             <div class="profile-photo-frame">
-              <img src="profile.jpg" alt="Your profile photo" />
+              <img src="profile.jpg" alt="Profile" onerror="this.src='https://via.placeholder.com/150'"/>
             </div>
-
             <div class="profile-meta">
               <p class="profile-name">Dhale</p>
-              <p class="profile-role">Developer · Analyst · Trader</p>
+              <p class="profile-role">Dev · Analyst · Trader</p>
             </div>
           </div>
-
-          <!-- Skill tags -->
           <div class="hero-tag hero-tag-dev">Web Developer</div>
           <div class="hero-tag hero-tag-stats">Statistical Tools</div>
           <div class="hero-tag hero-tag-trader">Forex Trader (XAUUSD)</div>
         </div>
 
-        <!-- Text on the right side on desktop -->
         <div class="hero-text">
-          <p class="hero-kicker">Hello, I’m</p>
+          <p class="hero-kicker" style="color:var(--primary); font-weight:600;">Hello, I’m</p>
           <h1 class="hero-title">Glen Dhale L. Caparros</h1>
           <p class="hero-subtitle">
-            This is my personal portfolio, the main entry point to who I am as an intermediate
-            web developer, statistical tools user, and forex trader.
+            This is my personal portfolio, the main entry point to who I am as an intermediate web developer, statistical tools user, and forex trader.
           </p>
           <div class="hero-actions">
             <a href="#contact" class="btn primary-btn">Let’s Connect</a>
             <a href="#experience" class="btn ghost-btn">View Experience</a>
           </div>
-
-          <!-- Simple highlight pills to captivate at a glance -->
           <div class="hero-highlights">
-            <span class="highlight-pill">Clean, responsive web projects</span>
-            <span class="highlight-pill">Data‑driven decision making</span>
-            <span class="highlight-pill">Disciplined XAUUSD trading</span>
+            <span class="highlight-pill">Responsive Web</span>
+            <span class="highlight-pill">Data Analytics</span>
+            <span class="highlight-pill">Risk Management</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== About Me ========== -->
-    <section id="about" class="section about-section">
+    <section id="about" class="section about-section reveal">
       <div class="container section-inner">
         <header class="section-header">
           <h2>About Me</h2>
           <p>A self-taught builder with a focus on code, data, and markets.</p>
         </header>
-
         <div class="about-content">
-          <p>
-            I am an intermediate-level, self-taught developer and trader who enjoys turning ideas
-            into small, functional web projects and using data to support better decisions.
-          </p>
-          <p>
-            My background combines hands-on practice in HTML, CSS, and JavaScript with experience
-            using SPSS, Excel, and Jamovi for basic to intermediate statistical analysis and
-            reporting.
-          </p>
-          <p>
-            Alongside development and analytics, I actively trade forex with a particular focus
-            on XAUUSD (gold), where I apply structured risk management and price-action concepts
-            at an intermediate level.
-          </p>
+          <p>I am an intermediate-level, self-taught developer and trader who enjoys turning ideas into small, functional web projects and using data to support better decisions.</p>
+          <p>My background combines hands-on practice in HTML, CSS, and JavaScript with experience using SPSS, Excel, and Jamovi for basic to intermediate statistical analysis.</p>
+          <p>Alongside development and analytics, I actively trade forex with a particular focus on XAUUSD (gold), applying structured risk management concepts.</p>
         </div>
       </div>
     </section>
 
-    <!-- ========== Skills ========== -->
-    <section id="skills" class="section skills-section">
+    <section id="skills" class="section skills-section reveal">
       <div class="container section-inner">
         <header class="section-header">
           <h2>Skills</h2>
-          <p>Core skills across web development, statistics, and trading.</p>
+          <p>Core competencies across my three disciplines.</p>
         </header>
-
         <div class="skills-grid">
-          <!-- Web Development -->
           <article class="skill-card">
             <h3>Web Development</h3>
-            <p class="skill-level">Intermediate</p>
             <ul class="skill-list">
-              <li>HTML: semantic structure and accessible layouts</li>
-              <li>CSS: responsive, mobile-first styling and layout</li>
-              <li>JavaScript: basic interactivity and UI behavior</li>
-              <li>Practical experience building small web projects</li>
+              <li>HTML: Semantic structure</li>
+              <li>CSS: Responsive layouts</li>
+              <li>JavaScript: Interactivity</li>
+              <li>Small Project Architecture</li>
             </ul>
           </article>
-
-          <!-- Statistical Tools -->
           <article class="skill-card">
             <h3>Statistical Tools</h3>
-            <p class="skill-level">Intermediate</p>
             <ul class="skill-list">
-              <li>SPSS: basic to intermediate data analysis workflows</li>
-              <li>Excel: formulas, charts, and structured reports</li>
-              <li>Jamovi: user-friendly statistical analysis environment</li>
-              <li>Descriptive stats and basic inferential techniques</li>
+              <li>SPSS: Analysis workflows</li>
+              <li>Excel: Adv. Formulas & Charts</li>
+              <li>Jamovi: Statistical reporting</li>
+              <li>Hypothesis Testing</li>
             </ul>
           </article>
-
-          <!-- Trading -->
           <article class="skill-card">
-            <h3>Trading (Forex / XAUUSD)</h3>
-            <p class="skill-level">Intermediate</p>
+            <h3>Trading (XAUUSD)</h3>
             <ul class="skill-list">
-              <li>Hands-on trading experience focused on XAUUSD (gold)</li>
-              <li>Risk management: position sizing and loss control</li>
-              <li>Technical and price-action basics</li>
-              <li>Routine market review and trade journaling</li>
+              <li>Technical Analysis</li>
+              <li>Risk Management (R:R)</li>
+              <li>Trade Journaling</li>
+              <li>Market Psychology</li>
             </ul>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ========== Experience ========== -->
-    <section id="experience" class="section experience-section">
+    <section id="experience" class="section experience-section reveal">
       <div class="container section-inner">
         <header class="section-header">
           <h2>Experience</h2>
-          <p>Practical, self-driven projects and real-market exposure.</p>
+          <p>Practical projects and market exposure.</p>
         </header>
-
         <div class="timeline">
           <article class="timeline-item">
             <h3>Web Projects</h3>
-            <p class="timeline-tag">HTML · CSS · JavaScript</p>
-            <p>
-              Built multiple small web projects using semantic HTML, clean CSS, and JavaScript to
-              create responsive, mobile-friendly experiences.
-            </p>
-            <p>
-              Focused on fundamentals such as layout, typography, component reusability, and simple
-              interactivity to strengthen practical front-end skills.
-            </p>
+            <span class="timeline-tag">HTML · CSS · JS</span>
+            <p>Built multiple small web projects focusing on responsive layouts and component reusability.</p>
           </article>
-
           <article class="timeline-item">
             <h3>Statistical Analysis</h3>
-            <p class="timeline-tag">SPSS · Excel · Jamovi</p>
-            <p>
-              Performed basic to intermediate statistical analyses, including data cleaning,
-              descriptive statistics, and simple hypothesis testing.
-            </p>
-            <p>
-              Used SPSS, Excel, and Jamovi to structure datasets, create charts, and produce clear,
-              concise statistical summaries and basic reports.
-            </p>
+            <span class="timeline-tag">Freelance / Academic</span>
+            <p>Performed data cleaning and descriptive statistics using SPSS and Jamovi to produce clear reports.</p>
           </article>
-
           <article class="timeline-item">
-            <h3>Forex Trading – XAUUSD</h3>
-            <p class="timeline-tag">Trading · Risk Management</p>
-            <p>
-              Gained hands-on experience trading XAUUSD in the forex markets, applying intermediate
-              technical and price-action concepts.
-            </p>
-            <p>
-              Developed and followed risk management guidelines, including defined stop losses,
-              position sizing, and post-trade reviews to improve consistency.
-            </p>
+            <h3>Forex Trading</h3>
+            <span class="timeline-tag">Independent</span>
+            <p>Active XAUUSD trader utilizing price action strategies and strict position sizing protocols.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ========== Contact ========== -->
-    <section id="contact" class="section contact-section">
+    <section id="contact" class="section contact-section reveal">
       <div class="container section-inner">
         <header class="section-header">
           <h2>Contact</h2>
-          <p>Interested in working together or just saying hello?</p>
+          <p>Interested in working together?</p>
         </header>
-
         <div class="contact-grid">
-          <!-- Contact form -->
           <form class="contact-form" action="#" method="post">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Your name"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                rows="5"
-                placeholder="Tell me a bit about what you have in mind..."
-                required
-              ></textarea>
-            </div>
-
+            <input type="text" placeholder="Your name" required />
+            <input type="email" placeholder="you@example.com" required />
+            <textarea rows="5" placeholder="Tell me about your project..." required></textarea>
             <button type="submit" class="btn primary-btn">Send Message</button>
           </form>
-
-          <!-- Social / other contact -->
           <div class="contact-info">
-            <h3>Social & Links</h3>
-            <p>
-              Add your preferred social platforms or professional links here so people can easily
-              learn more about you and your work.
-            </p>
-
-            <!-- Shortened link labels: only "Account" is visible -->
+            <h3 style="margin-bottom:1rem;">Connect</h3>
             <ul class="social-list">
-              <li>
-                <span class="social-label">LinkedIn:</span>
-                <a
-                  href="https://www.linkedin.com/in/dhale-caparros-43ab56352?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-                  class="account-link"
-                >
-                  Account
-                </a>
-              </li>
-              <li>
-                <span class="social-label">Facebook:</span>
-                <a
-                  href="https://www.facebook.com/share/18u33nZrSe/"
-                  class="account-link"
-                >
-                  Account
-                </a>
-              </li>
-              <li>
-                <span class="social-label">Email:</span>
-                <a
-                  href="mailto:dhalecaparros17@gmail.com"
-                  class="account-link"
-                >
-                  Account
-                </a>
-              </li>
-              <li>
-                <span class="social-label">Forex / Trading:</span>
-                <a
-                  href="#"
-                  class="account-link"
-                >
-                  Account
-                </a>
-              </li>
+              <li><span class="social-label">LinkedIn:</span> <a href="#" class="account-link">View Profile</a></li>
+              <li><span class="social-label">Email:</span> <a href="mailto:dhalecaparros17@gmail.com" class="account-link">Send Email</a></li>
             </ul>
           </div>
         </div>
@@ -316,45 +416,77 @@
     </section>
   </main>
 
-  <!-- ================= Footer ================= -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>&copy; <span id="year"></span> GDLC.LTD. All rights reserved.</p>
-    </div>
+  <footer class="site-footer" style="text-align:center; padding:2rem; border-top:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">
+    <p>&copy; <span id="year"></span> GDLC.LTD. All rights reserved.</p>
   </footer>
 
-  <!-- Small enhancement: set current year, handle mobile nav, and theme toggle -->
   <script>
-    (function () {
-      const yearSpan = document.getElementById("year");
-      if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
+    // 1. Mobile Nav Toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    navToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('nav-open');
+    });
+
+    // 2. Theme Toggle
+    const themeBtn = document.querySelector('.theme-toggle');
+    const body = document.body;
+    themeBtn.addEventListener('click', () => {
+      const isLight = body.classList.toggle('theme-light');
+      body.classList.toggle('theme-dark', !isLight);
+      themeBtn.textContent = isLight ? "☀️" : "🌙";
+    });
+
+    // 3. Scroll Reveal Animation
+    const reveals = document.querySelectorAll('.reveal');
+    const revealOnScroll = () => {
+      const windowHeight = window.innerHeight;
+      const elementVisible = 150;
+      reveals.forEach((reveal) => {
+        const elementTop = reveal.getBoundingClientRect().top;
+        if (elementTop < windowHeight - elementVisible) {
+          reveal.classList.add('active');
+        }
+      });
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll(); // Trigger once on load
+
+    // 4. Scroll To Top Button
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    window.addEventListener('scroll', () => {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        scrollTopBtn.classList.add("show");
+      } else {
+        scrollTopBtn.classList.remove("show");
       }
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-      const navToggle = document.querySelector(".nav-toggle");
-      const mainNav = document.querySelector(".main-nav");
+    // 5. Active Link Highlighter (Scroll Spy)
+    const sections = document.querySelectorAll("section");
+    const navLi = document.querySelectorAll("nav ul li a");
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= (sectionTop - 150)) {
+          current = section.getAttribute("id");
+        }
+      });
+      navLi.forEach((a) => {
+        a.classList.remove("active");
+        if (a.getAttribute("href").includes(current)) {
+          a.classList.add("active");
+        }
+      });
+    });
 
-      if (navToggle && mainNav) {
-        navToggle.addEventListener("click", function () {
-          mainNav.classList.toggle("nav-open");
-          navToggle.classList.toggle("nav-open");
-        });
-      }
-
-      const themeToggle = document.querySelector(".theme-toggle");
-      const themeIcon = document.querySelector(".theme-toggle-icon");
-      const body = document.body;
-
-      if (themeToggle && themeIcon) {
-        themeToggle.addEventListener("click", function () {
-          const isLight = body.classList.toggle("theme-light");
-          body.classList.toggle("theme-dark", !isLight);
-
-          // Update icon: sun for light, moon for dark
-          themeIcon.textContent = isLight ? "☀️" : "🌙";
-        });
-      }
-    })();
+    // Set Year
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
