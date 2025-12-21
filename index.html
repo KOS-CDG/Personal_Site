@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
   <style>
     /* ================= VARIABLES ================= */
     :root {
@@ -36,7 +38,7 @@
     
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: var(--nav-height); /* Prevents nav from covering titles */
+      scroll-padding-top: var(--nav-height); 
     }
 
     body {
@@ -198,9 +200,13 @@
 
     /* Contact */
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+    
     input, textarea {
       width: 100%; padding: 1rem; background: var(--bg-surface); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px; color: var(--text-main); margin-bottom: 1.5rem; font-family: inherit;
+      border-radius: 8px; color: var(--text-main); font-family: inherit;
     }
     input:focus, textarea:focus { outline: none; border-color: var(--primary); }
 
@@ -219,7 +225,7 @@
     /* ================= MOBILE OPTIMIZATION ================= */
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; text-align: center; }
-      .hero-aside { max-width: 400px; margin: 0 auto; width: 100%; order: 2; /* Text first on mobile usually looks better, but keeping aside bottom here */ }
+      .hero-aside { max-width: 400px; margin: 0 auto; width: 100%; order: 2; }
       .hero-text { order: 1; margin-bottom: 2rem; }
       .contact-grid { grid-template-columns: 1fr; }
     }
@@ -395,20 +401,45 @@
       <div class="container section-inner">
         <header class="section-header">
           <h2>Contact</h2>
-          <p>Interested in working together?</p>
+          <p>Send me a direct message.</p>
         </header>
         <div class="contact-grid">
-          <form class="contact-form" action="#" method="post">
-            <input type="text" placeholder="Your name" required />
-            <input type="email" placeholder="you@example.com" required />
-            <textarea rows="5" placeholder="Tell me about your project..." required></textarea>
-            <button type="submit" class="btn primary-btn">Send Message</button>
+          
+          <form id="contact-form" class="contact-form">
+            <div class="form-group">
+              <label for="user_name">Your Name</label>
+              <input type="text" id="user_name" name="user_name" placeholder="John Doe" required />
+            </div>
+
+            <div class="form-group">
+              <label for="user_email">Your Email</label>
+              <input type="email" id="user_email" name="user_email" placeholder="john@example.com" required />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="How can I help you?" required></textarea>
+            </div>
+
+            <button type="submit" class="btn primary-btn" id="submit-btn">Send Message</button>
+            <p id="form-status" style="margin-top:1rem; font-weight:bold;"></p>
           </form>
+
           <div class="contact-info">
             <h3 style="margin-bottom:1rem;">Connect</h3>
             <ul class="social-list">
-              <li><span class="social-label">LinkedIn:</span> <a href="#" class="account-link">View Profile</a></li>
-              <li><span class="social-label">Email:</span> <a href="mailto:dhalecaparros17@gmail.com" class="account-link">Send Email</a></li>
+              <li>
+                <span class="social-label">LinkedIn:</span>
+                <a href="https://www.linkedin.com/in/dhale-caparros-43ab56352" class="account-link">View Profile</a>
+              </li>
+              <li>
+                <span class="social-label">Email:</span>
+                <a href="mailto:dhalecaparros17@gmail.com" class="account-link">Send Email</a>
+              </li>
+              <li>
+                 <span class="social-label">Trading:</span>
+                 <a href="#" class="account-link">View Stats</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -421,14 +452,50 @@
   </footer>
 
   <script>
-    // 1. Mobile Nav Toggle
-    const navToggle = document.querySelector('.nav-toggle');
-    const mainNav = document.querySelector('.main-nav');
-    navToggle.addEventListener('click', () => {
-      mainNav.classList.toggle('nav-open');
+    // 1. Initialize EmailJS
+    // !!! IMPORTANT: Replace 'YOUR_PUBLIC_KEY' with your actual Public Key from EmailJS
+    (function() {
+      // You must get this from https://dashboard.emailjs.com/admin/account
+      emailjs.init("PIxC8FiyZMJ8V-tAK"); 
+    })();
+
+    // 2. Handle Form Submission
+    const contactForm = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const statusMsg = document.getElementById('form-status');
+
+    contactForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Stop page reload
+
+      submitBtn.innerText = 'Sending...';
+
+      // !!! IMPORTANT: Replace 'YOUR_TEMPLATE_ID' with your actual Template ID
+      const serviceID = 'service_jsdhyll';  // Your Service ID
+      const templateID = 'template_ujdsr3rID'; // Your Template ID
+
+      emailjs.sendForm(serviceID, templateID, this)
+        .then(() => {
+          submitBtn.innerText = 'Send Message';
+          statusMsg.style.color = '#38bdf8'; // Success Blue
+          statusMsg.innerText = 'Message Sent Successfully!';
+          contactForm.reset();
+        }, (err) => {
+          submitBtn.innerText = 'Send Message';
+          statusMsg.style.color = '#ef4444'; // Error Red
+          statusMsg.innerText = 'Failed to send. Check console for error.';
+          console.log(JSON.stringify(err));
+          
+          if(!templateID.includes("template")) {
+            alert("Error: You haven't replaced YOUR_TEMPLATE_ID in the code yet!");
+          }
+        });
     });
 
-    // 2. Theme Toggle
+    // 3. UI Interactions (Mobile Nav, Theme, Scroll)
+    const navToggle = document.querySelector('.nav-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    navToggle.addEventListener('click', () => mainNav.classList.toggle('nav-open'));
+
     const themeBtn = document.querySelector('.theme-toggle');
     const body = document.body;
     themeBtn.addEventListener('click', () => {
@@ -437,7 +504,7 @@
       themeBtn.textContent = isLight ? "☀️" : "🌙";
     });
 
-    // 3. Scroll Reveal Animation
+    // Scroll Animations
     const reveals = document.querySelectorAll('.reveal');
     const revealOnScroll = () => {
       const windowHeight = window.innerHeight;
@@ -450,9 +517,9 @@
       });
     };
     window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll(); // Trigger once on load
+    revealOnScroll();
 
-    // 4. Scroll To Top Button
+    // Scroll To Top
     const scrollTopBtn = document.getElementById("scrollTopBtn");
     window.addEventListener('scroll', () => {
       if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
@@ -465,14 +532,13 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // 5. Active Link Highlighter (Scroll Spy)
+    // Active Link Spy
     const sections = document.querySelectorAll("section");
     const navLi = document.querySelectorAll("nav ul li a");
     window.addEventListener("scroll", () => {
       let current = "";
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
         if (pageYOffset >= (sectionTop - 150)) {
           current = section.getAttribute("id");
         }
@@ -485,7 +551,6 @@
       });
     });
 
-    // Set Year
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
