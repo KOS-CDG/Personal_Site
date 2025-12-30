@@ -86,6 +86,7 @@ body {
 .shape-code-bracket::after { content: '{ }'; }
 .shape-plus { font-size: 2rem; color: var(--accent); top: 65%; left: 40%; opacity: 0.1; animation: float 8s infinite; font-family: monospace; }
 .shape-plus::after { content: '+'; }
+
 /* --- Profile Picture Fit --- */
 .profile-circle {
     /* Ensures the container is a circle */
@@ -104,7 +105,8 @@ body {
     object-fit: cover; /* Prevents stretching/squishing */
     object-position: center top; /* Focuses on the face (top center) */
     display: block;
-}/* --- 4. Layout & Typography --- */
+}
+/* --- 4. Layout & Typography --- */
 .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 .section { padding: 6rem 0; position: relative; z-index: 2; }
 .section-title { font-family: var(--font-head); font-size: 2.5rem; margin-bottom: 4rem; text-align: center; position: relative; }
@@ -285,7 +287,7 @@ body.light-mode .input-group input { background: rgba(0,0,0,0.03); border-color:
 @keyframes floatRotate { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-/* Mobile Optimization */
+/* --- 12. Mobile Optimization (THE FIX) --- */
 @media (max-width: 768px) {
     .nav-menu { position: fixed; right: -100%; top: 70px; height: calc(100vh - 70px); width: 100%; background: var(--bg-color); flex-direction: column; justify-content: center; transition: 0.4s; }
     .nav-menu.active { right: 0; }
@@ -296,10 +298,30 @@ body.light-mode .input-group input { background: rgba(0,0,0,0.03); border-color:
     .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
     /* Scene Adjustments */
-    .desk-scene { transform: scale(0.6); transform-origin: bottom center; bottom: -20px; }
-    .hanging-lamp { top: -60px; }
-    .light-beam { width: 350px; }
+    .desk-scene { 
+        transform: scale(0.65); /* Slightly larger */
+        transform-origin: bottom center; 
+        bottom: -60px; /* Push laptop down */
+    }
+    
+    /* Move lamp UP so it's above the name */
+    .hanging-lamp { 
+        top: -280px; 
+    }
+    
+    /* Lengthen wire */
+    .wire {
+        height: 280px;
+    }
+    
+    /* Adjust Beam */
+    .light-beam { 
+        top: 320px; /* socket + wire */
+        width: 280px; /* Narrower for mobile */
+        height: 500px;
+        clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+    }
+    
     /* Ensure one line name fits */
-    .hero-title { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+    .hero-title { font-size: clamp(2rem, 7vw, 3rem); }
 }
-
