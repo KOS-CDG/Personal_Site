@@ -4,14 +4,19 @@
     --bg-grid: rgba(59, 130, 246, 0.06);
     --text-main: #f9fafb;
     --text-muted: #94a3b8;
-    --primary: #8b5cf6;
+    --primary: #8b5cf6; /* Violet */
     --primary-glow: rgba(139, 92, 246, 0.5);
-    --accent: #ec4899;
+    --accent: #ec4899; /* Pink */
+    
+    /* UI Glass Settings */
     --glass-bg: rgba(15, 23, 42, 0.65);
     --glass-border: rgba(255, 255, 255, 0.08);
+    
+    /* Scene Objects */
     --lamp-cord: #475569;
     --bulb-on: #fef08a;
     --laptop-body: #334155;
+    
     --font-head: 'Poppins', sans-serif;
     --font-body: 'Inter', sans-serif;
 }
@@ -21,90 +26,144 @@ body.light-mode {
     --bg-grid: rgba(15, 23, 42, 0.05);
     --text-main: #0f172a;
     --text-muted: #475569;
-    --primary: #6366f1;
+    --primary: #6366f1; /* Indigo */
     --glass-bg: rgba(255, 255, 255, 0.75);
     --glass-border: rgba(0, 0, 0, 0.06);
     --laptop-body: #94a3b8;
 }
 
+/* --- 2. Base Reset --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
+body { 
+    font-family: var(--font-body); 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+    overflow-x: hidden; 
+    transition: background-color 0.3s, color 0.3s;
+}
 
-/* --- 2. Fixed Backgrounds --- */
-.fixed-grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background-image: linear-gradient(var(--bg-grid) 1px, transparent 1px), linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
-.shapes-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
+/* --- 3. Fixed Backgrounds (Grid & 3D) --- */
+.fixed-grid {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+    background-image: 
+        linear-gradient(var(--bg-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+
+.shapes-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    z-index: -1; pointer-events: none; overflow: hidden;
+}
 .shape { position: absolute; transform-style: preserve-3d; opacity: 0.5; }
 
-/* 3D Objects */
+/* 3D Objects Definition */
 .shape-cube-wire { width: 80px; height: 80px; top: 15%; right: 8%; animation: floatRotate 25s infinite linear; }
 .face { position: absolute; width: 100%; height: 100%; border: 1px solid var(--primary); background: rgba(139, 92, 246, 0.05); }
 .front { transform: translateZ(40px); } .back { transform: rotateY(180deg) translateZ(40px); }
 .right { transform: rotateY(90deg) translateZ(40px); } .left { transform: rotateY(-90deg) translateZ(40px); }
 .top { transform: rotateX(90deg) translateZ(40px); } .bottom { transform: rotateX(-90deg) translateZ(40px); }
+
 .shape-sphere { width: 50px; height: 50px; top: 55%; left: 5%; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--accent), transparent); animation: float 6s infinite ease-in-out; }
+
 .shape-pyramid { top: 40%; left: 15%; animation: floatRotate 20s infinite reverse linear; }
 .side { position: absolute; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 60px solid rgba(236, 72, 153, 0.2); transform-origin: 50% 100%; }
 .one { transform: rotateY(0deg) translateZ(10px) rotateX(30deg); } .two { transform: rotateY(90deg) translateZ(10px) rotateX(30deg); }
 .three { transform: rotateY(180deg) translateZ(10px) rotateX(30deg); } .four { transform: rotateY(-90deg) translateZ(10px) rotateX(30deg); }
+
 .shape-torus { width: 60px; height: 60px; top: 85%; right: 15%; border: 5px solid var(--primary); border-radius: 50%; opacity: 0.2; transform: rotateX(60deg); animation: float 9s infinite; }
+
+/* Tiny Particles */
 .shape-particle { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; opacity: 0.4; }
 .p1 { top: 20%; left: 30%; animation: float 5s infinite; }
 .p2 { top: 70%; right: 40%; animation: float 7s infinite reverse; }
 .p3 { top: 50%; left: 80%; animation: float 6s infinite; }
 .p4 { top: 90%; left: 10%; animation: float 8s infinite; }
+
 .shape-code-bracket { font-size: 2rem; color: var(--text-muted); top: 30%; right: 30%; opacity: 0.1; animation: float 10s infinite; font-family: monospace; }
 .shape-code-bracket::after { content: '{ }'; }
 .shape-plus { font-size: 2rem; color: var(--accent); top: 65%; left: 40%; opacity: 0.1; animation: float 8s infinite; font-family: monospace; }
 .shape-plus::after { content: '+'; }
 
-/* Profile Picture */
-.profile-circle { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; position: relative; background: var(--bg-color); }
-.profile-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-
-/* Layout */
+/* --- 4. Layout & Typography --- */
 .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 .section { padding: 6rem 0; position: relative; z-index: 2; }
 .section-title { font-family: var(--font-head); font-size: 2.5rem; margin-bottom: 4rem; text-align: center; position: relative; }
 .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--primary); margin: 0.5rem auto 0; border-radius: 2px; }
-.glass-panel, .glass-card, .project-card, .step-card { background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); border-radius: 16px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
 
-/* Navigation */
+/* Glass Cards */
+.glass-panel, .glass-card, .project-card, .step-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 5. Navigation --- */
 .header { position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(5,8,16,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); }
 body.light-mode .header { background: rgba(255,255,255,0.85); }
+
 .nav-container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-.logo { font-size: 1.5rem; font-weight: 800; font-family: var(--font-head); text-decoration: none; }
+.logo { font-size: 1.5rem; font-weight: 800; font-family: var(--font-head); text-decoration: none; color: var(--text-main); }
 .logo span.dot { color: var(--primary); }
-.nav-list { display: flex; gap: 2rem; font-weight: 500; font-size: 0.95rem; list-style: none; /* Removed bullets */ padding: 0; margin: 0; }
-.nav-link { position: relative; opacity: 0.8; transition: 0.3s; padding: 0.5rem 0.8rem; border-radius: 8px; text-decoration: none; }
+.nav-list { display: flex; gap: 2rem; font-weight: 500; font-size: 0.95rem; list-style: none; }
+
+.nav-link { 
+    color: var(--text-main); position: relative; opacity: 0.8; transition: 0.3s; padding: 0.5rem 0.8rem; border-radius: 8px; text-decoration: none;
+}
 .nav-link:hover { opacity: 1; color: var(--primary); background: rgba(139, 92, 246, 0.1); }
 .header-actions { display: flex; align-items: center; gap: 1rem; }
 #theme-toggle { background: none; border: 1px solid var(--glass-border); border-radius: 50%; width: 36px; height: 36px; color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-/* Hero Section */
+/* --- 6. Hero Section --- */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; perspective: 1000px; padding-bottom: 80px; }
 .hero-content { text-align: center; z-index: 10; margin-bottom: 60px; width: 100%; }
-.hero-title { font-family: var(--font-head); font-weight: 800; white-space: nowrap; font-size: clamp(2rem, 5.5vw, 5rem); line-height: 1.1; margin-bottom: 1.5rem; color: rgba(255,255,255,0.1); animation: lightUpText 1s 0.6s forwards ease-in; }
+
+.hero-title { 
+    font-family: var(--font-head); font-weight: 800; 
+    white-space: nowrap; 
+    font-size: clamp(2rem, 5.5vw, 5rem); 
+    line-height: 1.1; 
+    margin-bottom: 1.5rem;
+    color: rgba(255,255,255,0.1); 
+    animation: lightUpText 1s 0.6s forwards ease-in;
+}
 body.light-mode .hero-title { color: rgba(0,0,0,0.1); }
-@keyframes lightUpText { 0% { opacity: 0.3; text-shadow: none; } 100% { opacity: 1; color: var(--text-main); text-shadow: 0 0 40px rgba(139, 92, 246, 0.4); } }
+
+@keyframes lightUpText { 
+    0% { opacity: 0.3; text-shadow: none; } 
+    100% { opacity: 1; color: var(--text-main); text-shadow: 0 0 40px rgba(139, 92, 246, 0.4); } 
+}
+
 .hero-subtitle { color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
-.hero-description { color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin: 0 auto 2rem; }
-.hero-btns { display: flex; justify-content: center; gap: 1.5rem; /* Fix Button Spacing */ flex-wrap: wrap; }
+.hero-description { color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin: 0 auto 2rem; line-height: 1.6; }
 
 /* Buttons */
 .btn { padding: 0.8rem 2rem; border-radius: 999px; font-weight: 600; display: inline-block; cursor: pointer; border: none; transition: 0.3s; text-decoration: none; }
 .btn-primary { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; box-shadow: 0 4px 15px var(--primary-glow); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--primary-glow); }
-.btn-secondary { border: 1px solid var(--text-muted); color: var(--text-main); background: transparent; }
+.btn-secondary { border: 1px solid var(--text-muted); color: var(--text-main); margin-left: 1rem; background: transparent; }
 .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
 
-/* Desk Scene */
+/* --- 7. Desk Scene (Pure CSS Art) --- */
 .desk-scene { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; display: flex; justify-content: center; align-items: flex-end; }
 .hanging-lamp { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; z-index: 20; }
 .wire { width: 2px; height: 140px; background: var(--lamp-cord); }
 .socket { width: 50px; height: 40px; background: #1e293b; border-radius: 5px 5px 20px 20px; }
 .bulb { width: 20px; height: 20px; background: #64748b; border-radius: 50%; margin-top: -5px; animation: flickerOn 1.5s 0.2s forwards; }
-.light-beam { position: absolute; top: 160px; left: 50%; transform: translateX(-50%); width: 700px; height: 0; background: linear-gradient(to bottom, rgba(254, 240, 138, 0.15) 0%, transparent 90%); clip-path: polygon(35% 0, 65% 0, 100% 100%, 0% 100%); filter: blur(25px); animation: beamDown 1.2s 1.2s forwards ease-out; }
+
+.light-beam { 
+    position: absolute; top: 160px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 0; 
+    background: linear-gradient(to bottom, rgba(254, 240, 138, 0.15) 0%, transparent 90%);
+    clip-path: polygon(35% 0, 65% 0, 100% 100%, 0% 100%);
+    filter: blur(25px);
+    animation: beamDown 1.2s 1.2s forwards ease-out; 
+}
+
 .laptop { position: absolute; bottom: 30px; width: 320px; height: 200px; transform-style: preserve-3d; perspective: 1000px; }
 .base { position: absolute; bottom: 0; width: 360px; height: 16px; background: var(--laptop-body); left: -20px; border-radius: 6px; }
 .screen { width: 320px; height: 200px; background: #020617; border: 4px solid var(--laptop-body); border-radius: 10px 10px 0 0; position: absolute; bottom: 16px; left: 0; transform: rotateX(-10deg); overflow: hidden; }
@@ -120,39 +179,41 @@ body.light-mode .hero-title { color: rgba(0,0,0,0.1); }
 .desk { width: 100%; height: 25px; background: #1e293b; position: absolute; bottom: 0; }
 .desk-reflection { width: 300px; height: 25px; background: var(--bulb-on); opacity: 0; margin: 0 auto; filter: blur(30px); animation: reflect 1s 2s forwards; }
 
-/* Journey */
-.journey-path { position: relative; max-width: 800px; margin: 0 auto; padding: 2rem 0; display: flex; flex-direction: column; gap: 3rem; }
-.journey-path::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--glass-border); transform: translateX(-50%); }
-.step { position: relative; width: 50%; padding-right: 3rem; }
-.step.right { align-self: flex-end; padding-right: 0; padding-left: 3rem; text-align: left; }
-.step-marker { position: absolute; top: 20px; right: -8px; width: 16px; height: 16px; background: var(--bg-color); border: 3px solid var(--primary); border-radius: 50%; z-index: 2; box-shadow: 0 0 10px var(--primary-glow); }
-.step.right .step-marker { right: auto; left: -8px; }
-.step-card { padding: 1.5rem; position: relative; transition: transform 0.3s; }
-.step-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-.step-year { display: block; font-size: 0.8rem; color: var(--primary); font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem; }
-.step-card h3 { margin-bottom: 0.5rem; }
-@media (max-width: 768px) {
-    .journey-path::before { left: 20px; }
-    .step { width: 100%; padding-left: 50px; padding-right: 0; }
-    .step.right { padding-left: 50px; }
-    .step-marker { left: 12px; right: auto; }
-    .step.right .step-marker { left: 12px; }
-}
-
-/* Skills/Projects */
+/* --- 8. About & Profile Pic --- */
 .about-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; }
 .profile-card-art { width: 180px; height: 180px; border-radius: 50%; background: conic-gradient(from 180deg, var(--primary), var(--accent), var(--primary)); margin: 0 auto; padding: 4px; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 30px var(--primary-glow); }
-.profile-circle { width: 100%; height: 100%; background: var(--bg-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; color: var(--text-main); }
-.profile-badge { position: absolute; bottom: 0; background: var(--primary); padding: 5px 15px; border-radius: 20px; color: white; font-size: 0.8rem; }
+.profile-circle { width: 100%; height: 100%; background: var(--bg-color); border-radius: 50%; overflow: hidden; }
+.profile-img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 @media(min-width: 768px) { .about-grid { grid-template-columns: 1.5fr 1fr; } }
+
+/* --- 9. Journey (Stepping Stones) --- */
+.journey-path { 
+    position: relative; max-width: 800px; margin: 0 auto; 
+    padding: 2rem 0; display: flex; flex-direction: column; gap: 3rem; 
+}
+.journey-path::before {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; 
+    background: var(--glass-border); transform: translateX(-50%);
+}
+.step { position: relative; width: 50%; padding-right: 3rem; }
+.step.right { align-self: flex-end; padding-right: 0; padding-left: 3rem; text-align: left; }
+.step-marker {
+    position: absolute; top: 20px; right: -8px; width: 16px; height: 16px; 
+    background: var(--bg-color); border: 3px solid var(--primary); border-radius: 50%; z-index: 2;
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+.step.right .step-marker { right: auto; left: -8px; }
+.step-year { display: block; font-size: 0.8rem; color: var(--primary); font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem; }
+
+/* --- 10. Skills & Projects --- */
 .skills-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
 .skill-category { padding: 2rem; text-align: center; }
 .category-icon { font-size: 2rem; margin-bottom: 1rem; }
 .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
 .skill-tags span { font-size: 0.8rem; padding: 0.3rem 0.8rem; background: var(--bg-color); border-radius: 6px; color: var(--text-muted); border: 1px solid var(--glass-border); }
+
 .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-.project-card { overflow: hidden; transition: transform 0.2s; transform-style: preserve-3d; }
-.project-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+.project-card { overflow: hidden; transition: transform 0.2s; transform-style: preserve-3d; text-decoration: none; color: inherit; }
 .card-visual { height: 180px; background: linear-gradient(135deg, #1e1b4b, #4338ca); }
 .visual-2 { background: linear-gradient(135deg, #831843, #be185d); }
 .visual-3 { background: linear-gradient(135deg, #064e3b, #10b981); }
@@ -161,7 +222,7 @@ body.light-mode .hero-title { color: rgba(0,0,0,0.1); }
 .tags span { padding: 0.2rem 0.6rem; background: var(--bg-color); border-radius: 4px; font-size: 0.75rem; color: var(--text-muted); }
 .link-arrow { color: var(--primary); font-weight: 600; font-size: 0.9rem; margin-top: 1rem; display: block; text-decoration: none; }
 
-/* Contact & Footer */
+/* --- 11. Contact & Footer --- */
 .contact-layout { display: grid; gap: 3rem; }
 @media(min-width: 768px) { .contact-layout { grid-template-columns: 1.5fr 1fr; } }
 .contact-form { padding: 2rem; }
@@ -172,56 +233,37 @@ body.light-mode .input-group input { background: rgba(0,0,0,0.03); border-color:
 .input-group input:focus ~ label, .input-group input:not(:placeholder-shown) ~ label,
 .input-group textarea:focus ~ label, .input-group textarea:not(:placeholder-shown) ~ label { top: -0.6rem; font-size: 0.8rem; color: var(--primary); background: var(--bg-color); }
 .info-list li { margin-bottom: 1.5rem; display: flex; flex-direction: column; }
-.info-list a { text-decoration: none; font-weight: 500; transition: color 0.3s; }
+.info-list a { text-decoration: none; font-weight: 500; transition: color 0.3s; color: var(--text-main); }
 .info-list a:hover { color: var(--primary); }
 .site-footer { padding: 3rem 0; text-align: center; border-top: 1px solid var(--glass-border); background: var(--bg-color); position: relative; z-index: 2; }
 .footer-content { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
 
-/* Animations */
-.hidden { opacity: 0; transform: translateY(30px); transition: 0.8s var(--ease); }
+/* --- 12. Animations & Mobile Fixes --- */
+.hidden { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
 .show { opacity: 1; transform: translateY(0); }
 #scrollTopBtn { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: white; width: 45px; height: 45px; border-radius: 50%; border: none; cursor: pointer; opacity: 0; transition: 0.3s; z-index: 99; display: flex; align-items: center; justify-content: center; }
+
 @keyframes flickerOn { 0% { background: #64748b; } 100% { background: var(--bulb-on); box-shadow: 0 0 50px var(--bulb-on); } }
 @keyframes beamDown { 0% { height: 0; opacity: 0; } 100% { height: 160%; opacity: 1; } }
 @keyframes reflect { 0% { opacity: 0; } 100% { opacity: 0.3; } }
 @keyframes floatRotate { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-/* --- 12. MOBILE OPTIMIZATION --- */
 @media (max-width: 768px) {
-    .nav-menu { position: fixed; right: -100%; top: 70px; height: calc(100vh - 70px); width: 100%; background: var(--bg-color); flex-direction: column; justify-content: center; transition: 0.4s; z-index: 999; }
+    .nav-menu { position: fixed; right: -100%; top: 70px; height: calc(100vh - 70px); width: 100%; background: var(--bg-color); flex-direction: column; justify-content: center; transition: 0.4s; }
     .nav-menu.active { right: 0; }
     .hamburger { display: block; width: 30px; cursor: pointer; }
     .bar { display: block; width: 100%; height: 2px; background: var(--text-main); margin: 6px 0; transition: 0.3s; }
     .hamburger.active .bar:nth-child(2) { opacity: 0; }
     .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-    /* Scene Adjustments - Mobile */
-    .desk-scene { 
-        transform: scale(0.65); /* Slightly larger */
-        transform-origin: bottom center; 
-        bottom: -60px; /* Push laptop down */
-    }
-    
-    /* Move lamp UP so it's above the name on Mobile */
-    .hanging-lamp { 
-        top: -220px; /* Pull lamp higher up on mobile */
-    }
-    
-    /* Lengthen wire to reach the bulb position */
-    .wire {
-        height: 200px;
-    }
-    
-    /* Adjust Beam to start from new bulb location */
-    .light-beam { 
-        top: 240px; 
-        width: 320px; 
-        height: 500px;
-        clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
-    }
-    
-    .hero-title { font-size: clamp(2rem, 7vw, 3rem); }
-    .hero-btns { flex-direction: column; align-items: center; width: 100%; }
+    .desk-scene { transform: scale(0.65); transform-origin: bottom center; bottom: -60px; }
+    .hanging-lamp { top: -280px; }
+    .wire { height: 280px; }
+    .light-beam { top: 320px; width: 280px; height: 500px; clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%); }
+    .journey-path::before { left: 20px; }
+    .step { width: 100%; padding-left: 50px; padding-right: 0; }
+    .step.right { padding-left: 50px; }
+    .step-marker { left: 12px; right: auto; }
+    .step.right .step-marker { left: 12px; }
 }
