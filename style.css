@@ -86,21 +86,25 @@ body {
 .shape-code-bracket::after { content: '{ }'; }
 .shape-plus { font-size: 2rem; color: var(--accent); top: 65%; left: 40%; opacity: 0.1; animation: float 8s infinite; font-family: monospace; }
 .shape-plus::after { content: '+'; }
-/* Profile Image Fix */
-.profile-img {
+/* --- Profile Picture Fit --- */
+.profile-circle {
+    /* Ensures the container is a circle */
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the photo fills the circle without distortion */
-    border-radius: 50%; /* Makes the square image a perfect circle */
-    display: block;
+    border-radius: 50%;
+    overflow: hidden; /* Crops any part of the image outside the circle */
+    position: relative;
+    background: var(--bg-color); /* Background color behind image */
 }
 
-/* Update the container to remove the background color if needed */
-.profile-circle {
-    overflow: hidden; /* Clips any edges of the image */
-    /* background: var(--bg-color); <--- You can keep or remove this */
-}
-/* --- 4. Layout & Typography --- */
+.profile-img {
+    /* Makes the image fill the circle perfectly */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Prevents stretching/squishing */
+    object-position: center top; /* Focuses on the face (top center) */
+    display: block;
+}/* --- 4. Layout & Typography --- */
 .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 .section { padding: 6rem 0; position: relative; z-index: 2; }
 .section-title { font-family: var(--font-head); font-size: 2.5rem; margin-bottom: 4rem; text-align: center; position: relative; }
@@ -298,3 +302,4 @@ body.light-mode .input-group input { background: rgba(0,0,0,0.03); border-color:
     /* Ensure one line name fits */
     .hero-title { font-size: clamp(1.8rem, 6vw, 2.5rem); }
 }
+
