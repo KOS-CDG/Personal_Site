@@ -1,134 +1,211 @@
-/* script.js */
+/* ===================================
+   OPTIMIZED PORTFOLIO JAVASCRIPT
+   Glen Dhale L. Caparros
+   =================================== */
+
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. EmailJS Initialization ---
-    // IMPORTANT: Replace with your actual Public Key from EmailJS dashboard
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init("YOUR_PUBLIC_KEY_HERE"); 
-    }
-
-    // --- 2. Theme Toggle ---
+    // 1. Theme Toggle with localStorage
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     
-    // Check for saved theme
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'light') {
+    // Check saved theme preference
+    if (localStorage.getItem('theme') === 'light') {
         body.classList.add('light-mode');
     }
 
     themeToggle.addEventListener('click', () => {
         body.classList.toggle('light-mode');
-        // Save preference
-        const theme = body.classList.contains('light-mode') ? 'light' : 'dark';
-        localStorage.setItem('theme', theme);
+        localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+        
+        // Animate theme toggle button
+        themeToggle.style.transform = 'rotate(360deg)';
+        setTimeout(() => {
+            themeToggle.style.transform = 'rotate(0deg)';
+        }, 300);
     });
 
-    // --- 3. Mobile Menu Handling ---
+    // 2. Vertical Mobile Navigation (Hamburger Menu)
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.querySelector('.nav-menu');
-    const links = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav-link');
 
-    const toggleMenu = () => {
+    hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
+        
+        // Animate hamburger bars
+        const bars = hamburger.querySelectorAll('.bar');
+        if (hamburger.classList.contains('active')) {
+            bars[0].style.transform = "rotate(45deg) translate(8px, 8px)";
+            bars[1].style.opacity = "0";
+            bars[2].style.transform = "rotate(-45deg) translate(8px, -8px)";
+        } else {
+            bars[0].style.transform = "none";
+            bars[1].style.opacity = "1";
+            bars[2].style.transform = "none";
+        }
+    });
+
+    // Close menu when clicking a nav link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            
+            // Reset hamburger
+            const bars = hamburger.querySelectorAll('.bar');
+            bars[0].style.transform = "none";
+            bars[1].style.opacity = "1";
+            bars[2].style.transform = "none";
+        });
+    });
+
+    // 3. Scroll Animation (Intersection Observer)
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     };
 
-    hamburger.addEventListener('click', toggleMenu);
-    
-    // Close menu when clicking a link
-    links.forEach(link => link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-    }));
-
-    // --- 4. Scroll Reveal Animations ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('show');
             }
         });
-    }, { threshold: 0.1 });
+    }, observerOptions);
 
-    document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
-
-    // --- 5. 3D Tilt Effect for Cards ---
-    // Adds a premium feel to cards on mouse hover
-    const cards = document.querySelectorAll('.project-card, .skill-category, .step-card');
-    
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            // Calculate rotation (divided by 25 to keep it subtle)
-            card.style.transform = `perspective(1000px) rotateX(${y / -25}deg) rotateY(${x / 25}deg) scale(1.02)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-        });
+    document.querySelectorAll('.hidden').forEach(el => {
+        observer.observe(el);
     });
 
-    // --- 6. Contact Form Submission ---
-    const form = document.getElementById('contact-form');
+    // 4. Enhanced Light Bulb Animation
+    const bulbGlass = document.querySelector('.bulb-glass');
+    const lightBeam = document.querySelector('.light-beam');
+    
+    if (bulbGlass) {
+        setInterval(() => {
+            // Flicker effect
+            const randomFlicker = Math.random();
+            if (randomFlicker > 0.95) {
+                bulbGlass.style.opacity = '0.8';
+                setTimeout(() => {
+                    bulbGlass.style.opacity = '1';
+                }, 50);
+            }
+        }, 100);
+    }
+
+    // 5. EmailJS Setup
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init("PIxC8FiyZMJ8V-tAK");
+    }
+
+    const contactForm = document.getElementById('contact-form');
     const submitBtn = document.getElementById('submit-btn');
     const statusMsg = document.getElementById('form-status');
 
-    if(form) {
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            if (typeof emailjs === 'undefined') {
-                statusMsg.innerText = "Error: EmailJS not loaded.";
-                return;
-            }
-
-            submitBtn.innerText = 'Sending...';
+            submitBtn.innerText = "Sending...";
             submitBtn.disabled = true;
-
-            // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with actual EmailJS IDs
-            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+            
+            emailjs.sendForm('service_jsdhyll', 'template_ujdsr3r', this)
                 .then(() => {
-                    submitBtn.innerText = 'Sent!';
-                    submitBtn.style.background = '#10b981'; // Success Green
-                    statusMsg.style.color = '#10b981';
-                    statusMsg.innerText = 'Message Sent Successfully!';
-                    form.reset();
+                    submitBtn.innerText = "Sent!";
+                    submitBtn.style.background = "linear-gradient(135deg, #10b981, #059669)";
+                    statusMsg.innerText = "Message sent successfully!";
+                    statusMsg.style.color = "#10b981";
+                    contactForm.reset();
                     
                     setTimeout(() => {
-                        submitBtn.innerText = 'Send Message';
-                        submitBtn.style.background = '';
+                        submitBtn.innerText = "Send Message";
                         submitBtn.disabled = false;
-                        statusMsg.innerText = '';
-                    }, 4000);
+                        submitBtn.style.background = "";
+                        statusMsg.innerText = "";
+                    }, 3000);
                 }, (err) => {
-                    submitBtn.innerText = 'Retry';
+                    submitBtn.innerText = "Error";
                     submitBtn.disabled = false;
-                    statusMsg.style.color = '#ef4444'; // Error Red
-                    statusMsg.innerText = 'Failed to send. Please try again.';
+                    statusMsg.innerText = "Failed to send message. Please try again.";
+                    statusMsg.style.color = "#ef4444";
                     console.error('EmailJS Error:', err);
+                    
+                    setTimeout(() => {
+                        submitBtn.innerText = "Send Message";
+                        statusMsg.innerText = "";
+                    }, 3000);
                 });
         });
     }
 
-    // --- 7. Footer Year & Scroll To Top ---
-    document.getElementById("year").textContent = new Date().getFullYear();
-    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    // 6. Dynamic Year in Footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 7. Scroll to Top Button
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // 8. Smooth Parallax Effect for Shapes
+    let ticking = false;
     
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            scrollTopBtn.style.opacity = '1';
-            scrollTopBtn.style.pointerEvents = 'all';
-        } else {
-            scrollTopBtn.style.opacity = '0';
-            scrollTopBtn.style.pointerEvents = 'none';
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrolled = window.pageYOffset;
+                const shapes = document.querySelectorAll('.shape');
+                
+                shapes.forEach((shape, index) => {
+                    const speed = 0.5 + (index * 0.1);
+                    shape.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+                
+                ticking = false;
+            });
+            
+            ticking = true;
         }
     });
+
+    // 9. Active Navigation Link Highlight
+    const sections = document.querySelectorAll('section[id]');
     
-    scrollTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            if (window.pageYOffset >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
     });
+
+    // 10. Performance: Reduce animations on low-end devices
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    
+    if (prefersReducedMotion.matches) {
+        document.querySelectorAll('.shape, .bulb-glass, .light-beam').forEach(el => {
+            el.style.animation = 'none';
+        });
+    }
 });
