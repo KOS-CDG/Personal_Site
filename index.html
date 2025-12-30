@@ -19,24 +19,37 @@
     <div class="fixed-grid"></div>
     
     <div class="shapes-container">
+        <!-- Rotating Cube -->
+        <div class="shape shape-cube-rotating">
+            <div class="cube-face front"></div>
+            <div class="cube-face back"></div>
+            <div class="cube-face right"></div>
+            <div class="cube-face left"></div>
+            <div class="cube-face top"></div>
+            <div class="cube-face bottom"></div>
+        </div>
+        
+        <!-- Wire Cube -->
         <div class="shape shape-cube-wire">
             <div class="face front"></div><div class="face back"></div>
             <div class="face right"></div><div class="face left"></div>
             <div class="face top"></div><div class="face bottom"></div>
         </div>
+        
+        <!-- Sphere -->
         <div class="shape shape-sphere"></div>
+        
+        <!-- Pyramid -->
         <div class="shape shape-pyramid">
             <div class="side one"></div><div class="side two"></div>
             <div class="side three"></div><div class="side four"></div>
         </div>
+        
+        <!-- Torus -->
         <div class="shape shape-torus"></div>
         
-        <div class="shape shape-particle p1"></div>
-        <div class="shape shape-particle p2"></div>
-        <div class="shape shape-particle p3"></div>
-        <div class="shape shape-particle p4"></div>
+        <!-- Code Bracket -->
         <div class="shape shape-code-bracket"></div>
-        <div class="shape shape-plus"></div>
     </div>
 
     <header class="header">
@@ -55,8 +68,11 @@
 
             <div class="header-actions">
                 <button id="theme-toggle" aria-label="Toggle Dark Mode">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
                 </button>
+                
                 <div class="hamburger" id="hamburger">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -68,37 +84,21 @@
 
     <main>
         <section id="hero" class="hero">
-            
-            <div class="desk-scene">
-                <div class="hanging-lamp">
-                    <div class="wire"></div>
-                    <div class="socket"></div>
-                    <div class="bulb"></div>
-                    <div class="light-beam"></div>
+            <!-- Realistic Hanging Light Bulb -->
+            <div class="hanging-light">
+                <div class="ceiling-mount"></div>
+                <div class="wire"></div>
+                <div class="socket">
+                    <div class="socket-thread"></div>
                 </div>
-
-                <div class="laptop">
-                    <div class="screen">
-                        <div class="display">
-                            <div class="ui-mockup">
-                                <div class="ui-header"></div>
-                                <div class="ui-body">
-                                    <div class="ui-sidebar"></div>
-                                    <div class="ui-content">
-                                        <div class="ui-hero"></div>
-                                        <div class="ui-grid">
-                                            <div class="ui-card"></div><div class="ui-card"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="camera"></div>
+                <div class="bulb-wrapper">
+                    <div class="bulb-glass">
+                        <div class="filament"></div>
                     </div>
-                    <div class="base"><div class="trackpad"></div></div>
+                    <div class="bulb-base"></div>
                 </div>
-
-                <div class="desk"><div class="desk-reflection"></div></div>
+                <div class="light-glow"></div>
+                <div class="light-beam"></div>
             </div>
 
             <div class="container hero-content hidden">
@@ -112,6 +112,42 @@
                     <a href="#contact" class="btn btn-secondary">Let's Connect</a>
                 </div>
             </div>
+            
+            <!-- Desk Scene with Books and Laptop -->
+            <div class="desk-scene">
+                <div class="desk">
+                    <div class="desk-surface"></div>
+                    
+                    <!-- Stack of Books -->
+                    <div class="book-stack">
+                        <div class="book book-1">
+                            <div class="book-spine">HTML</div>
+                        </div>
+                        <div class="book book-2">
+                            <div class="book-spine">CSS</div>
+                        </div>
+                        <div class="book book-3">
+                            <div class="book-spine">JS</div>
+                        </div>
+                    </div>
+
+                    <!-- Minimal Laptop -->
+                    <div class="laptop">
+                        <div class="screen">
+                            <div class="display">
+                                <div class="ui-mockup">
+                                    <div class="ui-header"></div>
+                                    <div class="ui-body">
+                                        <div class="ui-sidebar"></div>
+                                        <div class="ui-content"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="base"></div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="about" class="section">
@@ -123,12 +159,12 @@
                         <br>
                         <p>Today, I combine my technical skills in <strong>HTML, CSS, and JavaScript</strong> with professional design tools like <strong>Figma</strong>. I use statistical tools (SPSS/Jamovi) to analyze user data, ensuring every design decision is backed by evidence.</p>
                     </div>
-                   <div class="about-visual hidden">
+                    
+                    <div class="about-visual hidden">
                         <div class="profile-card-art">
                             <div class="profile-circle">
                                 <img src="profilee.jpg" alt="Dhale Caparros" class="profile-img">
                             </div>
-                            <div class="profile-badge">UI/UX</div>
                         </div>
                     </div>                    
                 </div>
@@ -140,7 +176,6 @@
                 <h2 class="section-title hidden">My Toolkit</h2>
                 <div class="skills-wrapper hidden">
                     <div class="skill-category glass-card">
-                        <div class="category-icon">⚡</div>
                         <h3>Engineering</h3>
                         <div class="skill-tags">
                             <span>HTML5 / CSS3</span>
@@ -150,23 +185,19 @@
                         </div>
                     </div>
                     <div class="skill-category glass-card">
-                        <div class="category-icon">🎨</div>
                         <h3>Design</h3>
                         <div class="skill-tags">
                             <span>Figma</span>
                             <span>Prototyping</span>
                             <span>Wireframing</span>
-                            <span>Adobe XD</span>
                         </div>
                     </div>
                     <div class="skill-category glass-card">
-                        <div class="category-icon">📊</div>
                         <h3>Analytics</h3>
                         <div class="skill-tags">
                             <span>SPSS</span>
                             <span>Jamovi</span>
                             <span>Data Viz</span>
-                            <span>User Testing</span>
                         </div>
                     </div>
                 </div>
@@ -181,7 +212,6 @@
                         <div class="card-visual visual-1"></div>
                         <div class="card-content">
                             <h3>Learning Restaco</h3>
-                            <p>An educational platform focusing on accessibility and clear navigation paths for students.</p>
                             <div class="tags"><span>Web Dev</span><span>UX</span></div>
                             <a href="https://learningrestaco.netlify.app/" target="_blank" class="link-arrow">View Live &rarr;</a>
                         </div>
@@ -190,7 +220,6 @@
                         <div class="card-visual visual-2"></div>
                         <div class="card-content">
                             <h3>E-Commerce Redesign</h3>
-                            <p>A complete UI overhaul of a shop interface to improve click-through rates.</p>
                             <div class="tags"><span>Figma</span><span>UI</span></div>
                             <span class="link-label">Case Study</span>
                         </div>
@@ -199,7 +228,6 @@
                         <div class="card-visual visual-3"></div>
                         <div class="card-content">
                             <h3>Data Dashboard</h3>
-                            <p>Freelance project converting raw SPSS data into a visual dashboard.</p>
                             <div class="tags"><span>Data</span><span>Frontend</span></div>
                             <span class="link-label">Freelance</span>
                         </div>
@@ -211,7 +239,6 @@
         <section id="experience" class="section">
             <div class="container">
                 <h2 class="section-title hidden">My Journey</h2>
-                
                 <div class="journey-path hidden">
                     <div class="step">
                         <div class="step-marker"></div>
@@ -263,12 +290,12 @@
                         <button type="submit" class="btn btn-primary" id="submit-btn">Send Message</button>
                         <p id="form-status" class="status-msg"></p>
                     </form>
+                    
                     <div class="contact-info">
                         <h3>Connect</h3>
                         <ul class="info-list">
                             <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/dhale-caparros-43ab56352" target="_blank">View Profile</a></li>
                             <li><span>Email</span><a href="mailto:dhalecaparros17@gmail.com">dhalecaparros17@gmail.com</a></li>
-                            <li><span>Facebook</span><a href="https://www.facebook.com" target="_blank">View Facebook</a></li>
                         </ul>
                     </div>
                 </div>
@@ -278,7 +305,7 @@
 
     <footer class="site-footer">
         <div class="container footer-content">
-            <p>&copy; <span id="year"></span> Glen Dhale Caparros. Designed & Coded.</p>
+            <p>&copy; <span id="year"></span> Glen Dhale Caparros.</p>
             <button id="scrollTopBtn" aria-label="Scroll to top">↑</button>
         </div>
     </footer>
