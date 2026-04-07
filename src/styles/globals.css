@@ -1,0 +1,1284 @@
+/* ============================================================
+   GLEN CAPARROS PORTFOLIO — GLOBAL DESIGN SYSTEM
+   Three distinct visual identities:
+     dark  → Hacker Terminal Interface
+     light → Professional Resume Presentation
+     navy  → Signature Personal Identity (primary)
+   ============================================================ */
+
+:root,
+[data-theme="dark"] {
+  --bg:           #050505;
+  --bg-elevated:  #0a0a0a;
+  --bg-subtle:    #111111;
+  --border:       rgba(0, 255, 70, 0.08);
+  --border-hover: rgba(0, 255, 70, 0.20);
+
+  --green:        #00ff46;
+  --green-muted:  #00cc38;
+  --green-dim:    rgba(0, 255, 70, 0.07);
+  --green-glow:   rgba(0, 255, 70, 0.20);
+
+  --text:         #e8ffe0;
+  --text-muted:   #4a6b4a;
+  --text-subtle:  #1e3a1e;
+
+  --nav-bg:       rgba(5, 5, 5, 0.92);
+  --mobile-menu-bg: #050505;
+  --search-bg:    rgba(0, 255, 70, 0.03);
+  --search-border: rgba(0, 255, 70, 0.10);
+  --grain-opacity: 0.05;
+}
+
+[data-theme="light"] {
+  --bg:           #fafafa;
+  --bg-elevated:  #ffffff;
+  --bg-subtle:    #f1f3f6;
+  --border:       rgba(0, 0, 0, 0.07);
+  --border-hover: rgba(0, 0, 0, 0.16);
+
+  --green:        #1a6b3c;
+  --green-muted:  #15593a;
+  --green-dim:    rgba(26, 107, 60, 0.08);
+  --green-glow:   rgba(26, 107, 60, 0.15);
+
+  --text:         #0f1117;
+  --text-muted:   #52606d;
+  --text-subtle:  #b8c0cc;
+
+  --nav-bg:       rgba(250, 250, 250, 0.95);
+  --mobile-menu-bg: #fafafa;
+  --search-bg:    rgba(0,0,0,0.04);
+  --search-border: rgba(0,0,0,0.09);
+  --grain-opacity: 0;
+}
+
+[data-theme="navy"] {
+  --bg:           #060d1a;
+  --bg-elevated:  #0d1829;
+  --bg-subtle:    #162236;
+  --border:       rgba(100, 180, 255, 0.09);
+  --border-hover: rgba(100, 180, 255, 0.22);
+
+  --green:        #7eb8f7;
+  --green-muted:  #5a9de8;
+  --green-dim:    rgba(126, 184, 247, 0.10);
+  --green-glow:   rgba(126, 184, 247, 0.24);
+
+  --text:         #ddeeff;
+  --text-muted:   #5a7a99;
+  --text-subtle:  #1e3455;
+
+  --nav-bg:       rgba(6, 13, 26, 0.92);
+  --mobile-menu-bg: #060d1a;
+  --search-bg:    rgba(100,180,255,0.05);
+  --search-border: rgba(100,180,255,0.12);
+  --grain-opacity: 0.015;
+
+  --gold:         #c8a96e;
+  --gold-dim:     rgba(200, 169, 110, 0.10);
+}
+
+:root {
+  --font-display: 'Syne', 'Helvetica Neue', sans-serif;
+  --font-body:    'Outfit', 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  --section-py:   clamp(80px, 12vw, 140px);
+  --container:    1180px;
+  --gutter:       clamp(20px, 5vw, 80px);
+
+  --radius-sm:    6px;
+  --radius-md:    12px;
+  --radius-lg:    20px;
+  --radius-xl:    32px;
+
+  --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out:     cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-expo:    cubic-bezier(0.16, 1, 0.3, 1);
+
+  --section-accent: #22c55e;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.5s var(--ease), color 0.4s var(--ease);
+}
+
+/* Grain overlay for dark/navy */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -200%;
+  width: 400%;
+  height: 400%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  opacity: var(--grain-opacity, 0.04);
+  animation: grain 0.8s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after { animation: none; }
+}
+
+/* Scanlines for dark/terminal mode */
+[data-theme="dark"]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 255, 70, 0.018) 3px,
+    rgba(0, 255, 70, 0.018) 4px
+  );
+  pointer-events: none;
+  z-index: 9997;
+  mix-blend-mode: overlay;
+}
+
+/* Navy aurora ambient */
+[data-theme="navy"]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 120% 60% at 20% -10%, rgba(126,184,247,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 50% at 80% 110%, rgba(148,103,255,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(100,220,200,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: aurora-shift 18s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-shift {
+  0%   { opacity: 0.7; transform: scale(1) translateY(0); }
+  50%  { opacity: 1; transform: scale(1.04) translateY(-10px); }
+  100% { opacity: 0.8; transform: scale(0.97) translateY(8px); }
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--text-subtle); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--green-muted); }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2 {
+  text-shadow: 0 0 40px rgba(0, 255, 70, 0.10);
+}
+
+p { color: var(--text-muted); }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+input, textarea { font-family: inherit; }
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-py);
+}
+
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 60px;
+}
+
+.section-eyebrow__number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 0.12em;
+}
+
+.section-eyebrow__line {
+  flex: 1;
+  max-width: 48px;
+  height: 1px;
+  background: var(--green);
+  opacity: 0.5;
+}
+
+.section-eyebrow__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Dark mode terminal enhancements */
+[data-theme="dark"] .section-eyebrow__number {
+  letter-spacing: 0.18em;
+  text-shadow: 0 0 10px var(--green);
+}
+[data-theme="dark"] .section-eyebrow__line {
+  opacity: 0.8;
+  box-shadow: 0 0 6px var(--green);
+}
+
+/* Light mode clean dividers */
+[data-theme="light"] .section-eyebrow__line {
+  background: linear-gradient(to right, var(--green), transparent);
+  opacity: 1;
+}
+[data-theme="light"] .section {
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+/* Navy gold eyebrows */
+[data-theme="navy"] .section-eyebrow__number {
+  color: var(--gold);
+  letter-spacing: 0.16em;
+}
+[data-theme="navy"] .section-eyebrow__line {
+  background: linear-gradient(to right, var(--gold), transparent);
+  opacity: 0.6;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  white-space: nowrap;
+}
+
+[data-theme="navy"] .tag {
+  border-color: rgba(126, 184, 247, 0.20);
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2.4s ease infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 var(--green-glow); }
+  50%       { box-shadow: 0 0 0 8px transparent; }
+}
+
+[data-theme="dark"] .dot {
+  animation: pulse-dot 2.4s ease infinite, terminal-flicker 8s step-end infinite;
+}
+@keyframes terminal-flicker {
+  0%,89%,91%,93%,100% { opacity: 1; }
+  90%,92% { opacity: 0.6; }
+}
+
+::selection {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+*, *::before, *::after {
+  transition: background-color 0.4s var(--ease), border-color 0.35s var(--ease), color 0.28s var(--ease);
+}
+button, a, input {
+  transition: all 0.25s var(--ease);
+}
+
+.section {
+  position: relative;
+}
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 40%;
+  max-height: 300px;
+  background: radial-gradient(
+    ellipse 70% 100% at 50% 0%,
+    color-mix(in srgb, var(--section-accent, var(--green)) 4%, transparent) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+#skills          { --section-accent: #f59e0b; }
+#certifications  { --section-accent: #8b5cf6; }
+#projects        { --section-accent: #3b82f6; }
+#recommendations { --section-accent: #f43f5e; }
+#contact         { --section-accent: #22c55e; }
+#about           { --section-accent: #14b8a6; }
+
+/* Dark mode: section top line glow */
+[data-theme="dark"] .section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(0, 255, 70, 0.25) 50%, transparent);
+  pointer-events: none;
+}
+
+/* ── Certificate overlay / fullscreen preview ─────────────── */
+.cert-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 60px);
+}
+
+.cert-overlay__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.90);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.cert-overlay__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.25s var(--ease-spring);
+}
+.cert-overlay__close:hover {
+  background: rgba(255,255,255,0.14);
+  transform: rotate(90deg);
+}
+
+.cert-overlay__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 760px;
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* Premium certificate document */
+.cert-document {
+  background: #080808;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06),
+    0 40px 100px rgba(0,0,0,0.7);
+}
+
+/* Inner frame border */
+.cert-document::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.cert-document__header {
+  padding: 52px 56px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cert-document__header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--cert-accent-color, #4285F4), transparent);
+  opacity: 0.5;
+}
+
+.cert-document__corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+.cert-document__corner--tl { top: 22px; left: 22px; border-top: 1px solid rgba(255,255,255,0.18); border-left: 1px solid rgba(255,255,255,0.18); }
+.cert-document__corner--tr { top: 22px; right: 22px; border-top: 1px solid rgba(255,255,255,0.18); border-right: 1px solid rgba(255,255,255,0.18); }
+.cert-document__corner--bl { bottom: 22px; left: 22px; border-bottom: 1px solid rgba(255,255,255,0.18); border-left: 1px solid rgba(255,255,255,0.18); }
+.cert-document__corner--br { bottom: 22px; right: 22px; border-bottom: 1px solid rgba(255,255,255,0.18); border-right: 1px solid rgba(255,255,255,0.18); }
+
+.cert-document__watermark {
+  position: absolute;
+  top: 50%;
+  right: 36px;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: 110px;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  color: rgba(255,255,255,0.02);
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.cert-document__seal {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: 1.5px solid var(--cert-accent-color, #4285F4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.03);
+  margin-bottom: 24px;
+  box-shadow: 0 0 28px color-mix(in srgb, var(--cert-accent-color, #4285F4) 20%, transparent);
+}
+
+.cert-document__provider {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cert-accent-color, #4285F4);
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+
+.cert-document__cert-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 16px;
+}
+
+.cert-document__title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3.5vw, 30px);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+  max-width: 540px;
+}
+
+.cert-document__body {
+  padding: 36px 56px 52px;
+  background: #070707;
+}
+
+.cert-document__meta-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 36px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.cert-document__meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cert-document__meta-key {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+}
+
+.cert-document__meta-val {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.82);
+}
+
+.cert-document__desc-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 10px;
+}
+
+.cert-document__desc {
+  font-size: 14px;
+  line-height: 1.78;
+  color: rgba(255,255,255,0.52);
+  margin-bottom: 28px;
+  max-width: 560px;
+}
+
+.cert-document__skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.cert-document__skill-chip {
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.48);
+}
+
+.cert-document__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.cert-document__verify-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 100px;
+  background: var(--cert-accent-color, #4285F4);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: filter 0.2s, transform 0.2s;
+}
+.cert-document__verify-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.cert-document__platform {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.22);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+/* Certificate card frame wrapper */
+.cert-card-frame {
+  position: relative;
+}
+.cert-card-frame::before,
+.cert-card-frame::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.cert-card-frame::before {
+  top: 9px;
+  left: 9px;
+  border-top: 1.5px solid var(--cert-frame-color, var(--green));
+  border-left: 1.5px solid var(--cert-frame-color, var(--green));
+}
+.cert-card-frame::after {
+  bottom: 9px;
+  right: 9px;
+  border-bottom: 1.5px solid var(--cert-frame-color, var(--green));
+  border-right: 1.5px solid var(--cert-frame-color, var(--green));
+}
+.cert-card-frame:hover::before,
+.cert-card-frame:hover::after {
+  opacity: 1;
+}
+
+.cert-card__preview-hint {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%) scale(0.9);
+  z-index: 6;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.6);
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s var(--ease-spring);
+  pointer-events: none;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+}
+.cert-card-frame:hover .cert-card__preview-hint {
+  opacity: 1;
+  transform: translate(-50%, 50%) scale(1);
+}
+
+/* Music player for navy mode */
+.music-player {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px 10px 10px;
+  background: rgba(13, 24, 41, 0.88);
+  border: 1px solid rgba(100, 180, 255, 0.14);
+  border-radius: 100px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  transition: all 0.4s var(--ease);
+}
+.music-player:hover {
+  border-color: rgba(126, 184, 247, 0.28);
+  box-shadow: 0 8px 40px rgba(126, 184, 247, 0.12);
+}
+.music-player__btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(126, 184, 247, 0.10);
+  border: 1px solid rgba(126, 184, 247, 0.18);
+  color: rgba(126, 184, 247, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.music-player__btn:hover {
+  background: rgba(126, 184, 247, 0.18);
+  color: #7eb8f7;
+}
+.music-player__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.music-player__label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(126, 184, 247, 0.38);
+}
+.music-player__track {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(126, 184, 247, 0.68);
+  white-space: nowrap;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.music-player__eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.music-player__eq-bar {
+  width: 2.5px;
+  background: rgba(126, 184, 247, 0.48);
+  border-radius: 2px;
+  animation: eq-bounce 0.8s ease-in-out infinite;
+}
+.music-player__eq-bar:nth-child(1) { height: 6px;  animation-delay: 0s;    }
+.music-player__eq-bar:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+.music-player__eq-bar:nth-child(3) { height: 8px;  animation-delay: 0.30s; }
+.music-player__eq-bar:nth-child(4) { height: 14px; animation-delay: 0.10s; }
+@keyframes eq-bounce {
+  0%,100% { transform: scaleY(0.35); }
+  50%      { transform: scaleY(1); }
+}
+.music-player__eq--paused .music-player__eq-bar {
+  animation: none;
+  transform: scaleY(0.3);
+}
+.music-player--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+}
+
+/* ============================================================
+   THEME-SPECIFIC OVERRIDES — Deep identity per mode
+   ============================================================ */
+
+/* ── LIGHT MODE: Resume document feel ──────────────────────── */
+[data-theme="light"] .section::before { display: none; }
+
+/* Light: project cards feel like resume entries */
+[data-theme="light"] .project-card {
+  border-left: 3px solid var(--green);
+  border-top: none;
+  border-right: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--bg-elevated);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+[data-theme="light"] .project-card:hover {
+  border-left-color: var(--green-muted);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .project-card__glow { display: none; }
+
+/* Light: cert cards clean white */
+[data-theme="light"] .cert-card {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .cert-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+
+/* Light: skill bars get label-like appearance */
+[data-theme="light"] .skill-item__track {
+  background: rgba(0,0,0,0.06);
+  height: 4px;
+  border-radius: 4px;
+}
+
+/* Light: footer clean separation */
+[data-theme="light"] .footer {
+  background: var(--bg-subtle);
+  border-top: 2px solid var(--border);
+}
+
+/* Light: nav elevated */
+[data-theme="light"] .nav--scrolled {
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Light: headings stronger weight */
+[data-theme="light"] .about__heading,
+[data-theme="light"] .projects__heading,
+[data-theme="light"] .certs__heading,
+[data-theme="light"] .skills__heading {
+  letter-spacing: -0.03em;
+  color: #0a0f1a;
+}
+
+/* ── DARK MODE: Terminal hacker feel ────────────────────────── */
+
+/* Dark: project cards feel like terminal windows */
+[data-theme="dark"] .project-card {
+  border-color: rgba(0, 255, 70, 0.08);
+  background: #080808;
+}
+[data-theme="dark"] .project-card--featured {
+  background: linear-gradient(135deg, #080808 0%, rgba(0,255,70,0.03) 100%);
+  border-color: rgba(0, 255, 70, 0.14);
+}
+[data-theme="dark"] .project-card:hover {
+  border-color: rgba(0, 255, 70, 0.25);
+  box-shadow: 0 0 20px rgba(0, 255, 70, 0.06);
+}
+[data-theme="dark"] .project-card__num,
+[data-theme="dark"] .project-card__featured-badge {
+  text-shadow: 0 0 8px rgba(0,255,70,0.4);
+}
+
+/* Dark: cert cards terminal feel */
+[data-theme="dark"] .cert-card {
+  border-color: rgba(0, 255, 70, 0.07);
+  background: #070707;
+}
+[data-theme="dark"] .cert-card:hover,
+[data-theme="dark"] .cert-card--expanded {
+  box-shadow: 0 0 24px rgba(0, 255, 70, 0.08);
+}
+
+/* Dark: about card terminal mock */
+[data-theme="dark"] .about__card {
+  border-color: rgba(0, 255, 70, 0.08);
+  background: #070707;
+}
+[data-theme="dark"] .about__card-monogram {
+  -webkit-text-stroke-color: rgba(0, 255, 70, 0.06);
+}
+
+/* Dark: stats terminal readout */
+[data-theme="dark"] .about__stat-value {
+  color: var(--green);
+  text-shadow: 0 0 12px rgba(0, 255, 70, 0.4);
+}
+
+/* Dark: nav terminal chrome */
+[data-theme="dark"] .nav--scrolled {
+  border-bottom-color: rgba(0, 255, 70, 0.10);
+}
+
+/* Dark: tags glowing pills */
+[data-theme="dark"] .tag {
+  border-color: rgba(0, 255, 70, 0.15);
+  text-shadow: 0 0 6px rgba(0, 255, 70, 0.3);
+}
+
+/* ── NAVY MODE: Luxury signature feel ───────────────────────── */
+
+/* Navy: project cards glass panels */
+[data-theme="navy"] .project-card {
+  background: rgba(13, 24, 41, 0.6);
+  border-color: rgba(126, 184, 247, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+[data-theme="navy"] .project-card--featured {
+  background: linear-gradient(135deg, rgba(13,24,41,0.8) 0%, rgba(126,184,247,0.04) 100%);
+  border-color: rgba(126, 184, 247, 0.14);
+}
+[data-theme="navy"] .project-card:hover {
+  border-color: rgba(126, 184, 247, 0.22);
+  box-shadow: 0 8px 40px rgba(126, 184, 247, 0.08);
+}
+
+/* Navy: cert cards luxury glass */
+[data-theme="navy"] .cert-card {
+  background: rgba(13, 24, 41, 0.7);
+  border-color: rgba(126, 184, 247, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+[data-theme="navy"] .cert-card:hover,
+[data-theme="navy"] .cert-card--expanded {
+  border-color: rgba(126, 184, 247, 0.22);
+  box-shadow: 0 8px 32px rgba(126, 184, 247, 0.10), 0 0 0 1px rgba(126,184,247,0.12) inset;
+}
+
+/* Navy: about card deep glass */
+[data-theme="navy"] .about__card {
+  background: rgba(13, 24, 41, 0.6);
+  border-color: rgba(126, 184, 247, 0.08);
+  backdrop-filter: blur(12px);
+}
+[data-theme="navy"] .about__card-monogram {
+  -webkit-text-stroke-color: rgba(126, 184, 247, 0.05);
+}
+[data-theme="navy"] .about__card-badge {
+  border-color: rgba(126, 184, 247, 0.2);
+}
+
+/* Navy: heading line stroke uses gold */
+[data-theme="navy"] .hero__heading-line--accent {
+  -webkit-text-stroke-color: #c8a96e;
+}
+
+/* Navy: tag accent blue */
+[data-theme="navy"] .tag {
+  border-color: rgba(126, 184, 247, 0.18);
+}
+
+/* Navy: nav elevated glass */
+[data-theme="navy"] .nav--scrolled {
+  border-bottom-color: rgba(126, 184, 247, 0.10);
+}
+
+/* Navy: footer glass panel */
+[data-theme="navy"] .footer {
+  background: rgba(6, 13, 26, 0.85);
+  border-top: 1px solid rgba(126, 184, 247, 0.08);
+}
+
+/* Navy: section orb glow in navy blue tone */
+[data-theme="navy"] #certifications { --section-accent: #7eb8f7; }
+[data-theme="navy"] #skills         { --section-accent: #c8a96e; }
+[data-theme="navy"] #projects       { --section-accent: #7eb8f7; }
+[data-theme="navy"] #recommendations { --section-accent: #a48bf7; }
+[data-theme="navy"] #contact        { --section-accent: #7eb8f7; }
+[data-theme="navy"] #about          { --section-accent: #64d8c8; }
+[data-theme="navy"] #home           { --section-accent: #7eb8f7; }
+
+/* ── Section breathing animation (navy only) ───────────────── */
+[data-theme="navy"] .section {
+  animation: section-breathe 8s ease-in-out infinite;
+}
+@keyframes section-breathe {
+  0%, 100% { --section-glow-opacity: 0.04; }
+  50%       { --section-glow-opacity: 0.07; }
+}
+
+/* ── Scroll-triggered reveals extra polish (navy) ──────────── */
+[data-theme="navy"] .section-eyebrow__number {
+  animation: eyebrow-glow 3s ease-in-out infinite alternate;
+}
+@keyframes eyebrow-glow {
+  from { opacity: 0.7; }
+  to   { opacity: 1; text-shadow: 0 0 12px rgba(200,169,110,0.4); }
+}
+
+/* ── LIGHT MODE: print-ready look on sections ───────────────── */
+[data-theme="light"] .hero__orb--1,
+[data-theme="light"] .hero__orb--2 {
+  opacity: 0.4;
+}
+
+/* LIGHT: project section label-style heading */
+[data-theme="light"] .projects__heading {
+  font-size: clamp(28px, 4.5vw, 48px);
+  border-bottom: 2px solid rgba(0,0,0,0.08);
+  padding-bottom: 12px;
+  display: inline-block;
+}
+
+/* ── LIGHT: contact section resume-card feel ────────────────── */
+[data-theme="light"] #contact {
+  background: linear-gradient(180deg, transparent, rgba(26,107,60,0.03) 50%, transparent);
+}
+
+/* ── Recommendations: dark mode testimonial terminal ────────── */
+[data-theme="dark"] .recs__quote-mark {
+  text-shadow: 0 0 20px rgba(0,255,70,0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESUME UI — PREMIUM EDITORIAL UPGRADES  (light mode)
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Elevated nav in Resume mode ─────────────────────────────── */
+[data-theme="light"] .nav {
+  border-bottom: none;
+}
+[data-theme="light"] .nav--scrolled {
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ── Section headings: editorial weight ──────────────────────── */
+[data-theme="light"] h2 {
+  letter-spacing: -0.035em;
+}
+
+/* ── Eyebrow numbers: accent ink ─────────────────────────────── */
+[data-theme="light"] .section-eyebrow__number {
+  color: var(--green);
+  font-weight: 800;
+  font-size: 12px;
+}
+
+/* ── Certs: resume-document style ───────────────────────────── */
+[data-theme="light"] .cert-card {
+  border-radius: 2px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+[data-theme="light"] .cert-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 0 0 1px var(--cert-accent, var(--green)) inset;
+}
+[data-theme="light"] .cert-card__skill {
+  border-radius: 2px;
+}
+[data-theme="light"] .cert-card__type-badge {
+  border-radius: 2px;
+}
+
+/* ── Skills in Resume mode: clean bar chart ──────────────────── */
+[data-theme="light"] .skill-item {
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding-bottom: 12px;
+}
+
+/* ── About section: document feel ───────────────────────────── */
+[data-theme="light"] .about__card {
+  border-radius: 4px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+
+/* ── Projects in Resume mode: editorial list ─────────────────── */
+[data-theme="light"] .project-card {
+  border-radius: 4px;
+}
+[data-theme="light"] .project-card__tags .tag {
+  border-radius: 2px;
+  background: rgba(26,107,60,0.07);
+  border-color: rgba(26,107,60,0.15);
+  color: var(--green);
+}
+
+/* ── Cert carousel in Resume mode: document line-rule aesthetic */
+[data-theme="light"] .carousel__stage {
+  border-color: rgba(0,0,0,0.10);
+}
+[data-theme="light"] .carousel__btn {
+  border-radius: 2px;
+}
+[data-theme="light"] .carousel__skill {
+  border-radius: 2px;
+}
+
+/* ── Resume hero area: clean document top ───────────────────── */
+[data-theme="light"] .hero__badge {
+  background: rgba(26,107,60,0.06);
+  border-color: rgba(26,107,60,0.18);
+  color: var(--green);
+}
+[data-theme="light"] .hero__heading-line--accent {
+  -webkit-text-stroke-color: var(--green);
+}
+[data-theme="light"] .hero__btn--primary {
+  background: var(--green);
+  box-shadow: 0 4px 20px rgba(26,107,60,0.22);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TERMINAL UI — PREMIUM POLISH  (dark mode)
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Cert carousel: terminal raw style ───────────────────────── */
+[data-theme="dark"] .carousel__stage {
+  border-color: rgba(0,255,70,0.10);
+}
+[data-theme="dark"] .carousel__btn {
+  border-radius: 0;
+}
+
+/* ── Project cards: terminal frame ──────────────────────────── */
+[data-theme="dark"] .project-card {
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(0,255,70,0.06) inset;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SIGNATURE UI — PREMIUM GOLD POLISH  (navy mode)
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Carousel: gold accent ───────────────────────────────────── */
+[data-theme="navy"] .carousel__accent-line {
+  background: var(--gold, #c8a96e) !important;
+}
+[data-theme="navy"] .carousel__verify {
+  color: var(--gold, #c8a96e) !important;
+}
+
+/* ── Section eyebrow gold numbers ────────────────────────────── */
+[data-theme="navy"] .section-eyebrow__number {
+  color: var(--gold, #c8a96e);
+}
+
+/* ── Hero heading gold accent ────────────────────────────────── */
+[data-theme="navy"] .hero__heading-line--accent {
+  -webkit-text-stroke-color: var(--gold, #c8a96e);
+}
+
+/* ── Projects gold highlight ─────────────────────────────────── */
+[data-theme="navy"] .project-card:hover {
+  border-color: rgba(200,169,110,0.30);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(200,169,110,0.15) inset;
+}
+
+/* ── Gold dot color override ─────────────────────────────────── */
+[data-theme="navy"] .dot {
+  background: var(--gold, #c8a96e);
+  box-shadow: 0 0 6px rgba(200,169,110,0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESUME UI — TIMES NEW ROMAN TYPOGRAPHY  (light mode only)
+   Applies only to data-theme="light" — all other modes unaffected
+   ════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] {
+  --font-display: 'Times New Roman', 'Georgia', Times, serif;
+  --font-body:    'Times New Roman', 'Georgia', Times, serif;
+}
+
+/* Keep monospace elements untouched (code, labels, badges) */
+[data-theme="light"] .cert-card__type-badge,
+[data-theme="light"] .cert-card__courses,
+[data-theme="light"] .cert-card__issuer,
+[data-theme="light"] .cert-card__platform,
+[data-theme="light"] .cert-card__date,
+[data-theme="light"] .cert-card__verify,
+[data-theme="light"] .carousel__label,
+[data-theme="light"] .carousel__counter,
+[data-theme="light"] .carousel__issuer,
+[data-theme="light"] .carousel__meta,
+[data-theme="light"] .carousel__skill,
+[data-theme="light"] .carousel__verify,
+[data-theme="light"] .carousel__date,
+[data-theme="light"] .section-eyebrow,
+[data-theme="light"] .nav__link,
+[data-theme="light"] .hero__resume-title-label,
+[data-theme="light"] .hero__resume-meta-key,
+[data-theme="light"] .hero__resume-meta-val,
+[data-theme="light"] .skill-item__label,
+[data-theme="light"] .skill-item__pct,
+[data-theme="light"] .tag,
+[data-theme="light"] code,
+[data-theme="light"] pre {
+  font-family: var(--font-mono) !important;
+}
+
+/* Section headings: TNR with editorial weight */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3 {
+  font-family: 'Times New Roman', Georgia, Times, serif;
+  letter-spacing: -0.02em;
+}
+
+/* Hero name looks powerful in TNR */
+[data-theme="light"] .hero__heading {
+  font-family: 'Times New Roman', Georgia, Times, serif;
+  font-size: clamp(52px, 9vw, 130px);
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+}
+
+/* About heading */
+[data-theme="light"] .about__heading {
+  font-family: 'Times New Roman', Georgia, Times, serif;
+}
+
+/* Cert card titles */
+[data-theme="light"] .cert-card__title,
+[data-theme="light"] .carousel__title {
+  font-family: 'Times New Roman', Georgia, Times, serif;
+  letter-spacing: -0.02em;
+}
+
+/* Nav brand logo stays display font */
+[data-theme="light"] .nav__logo {
+  font-family: 'Times New Roman', Georgia, Times, serif;
+  letter-spacing: -0.04em;
+}
+
+/* Body text in TNR reads like a printed CV */
+[data-theme="light"] .hero__desc,
+[data-theme="light"] .about__para,
+[data-theme="light"] .cert-card__desc,
+[data-theme="light"] .carousel__desc,
+[data-theme="light"] .project-card__desc {
+  font-family: 'Times New Roman', Georgia, Times, serif;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Resume portrait byline in TNR */
+[data-theme="light"] .hero__resume-name-label {
+  font-family: 'Times New Roman', Georgia, Times, serif;
+  font-size: 18px;
+  letter-spacing: 0.01em;
+}
+
+/* ── Mobile hero resume portrait: tighter layout ─────────── */
+@media (max-width: 600px) {
+  [data-theme="light"] .hero__profile-card--resume {
+    width: 100%;
+    max-width: 300px;
+  }
+  [data-theme="light"] .hero__resume-portrait {
+    width: 150px;
+    height: 185px;
+  }
+  [data-theme="light"] .hero__resume-meta-row {
+    gap: 12px;
+  }
+}
+
+/* ── Resume UI section borders ────────────────────────────── */
+[data-theme="light"] .section {
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+[data-theme="light"] #home {
+  border-top: none;
+}
+[data-theme="light"] .certs__carousel-section {
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+[data-theme="light"] .hero__resume-meta-row {
+  border-top: 1px solid rgba(0,0,0,0.07);
+  padding-top: 12px;
+}
+[data-theme="light"] .hero__resume-divider {
+  background: rgba(0,0,0,0.10);
+}
