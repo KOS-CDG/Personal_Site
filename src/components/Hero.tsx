@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useTheme } from '../App';
+import FlappyGoldBar from './ui/FlappyGoldBar';
+import TicTacToe from './ui/TicTacToe';
 
 const ROLES = [
-  'Web Developer',
+  'Full Stack Developer',
+  'DevOps Engineer',
+  'UX Designer',
   'IoT Engineer',
   'STEM Student',
-  'Circuit Tinkerer',
 ];
 
 export default function Hero() {
@@ -16,6 +19,24 @@ export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [typing, setTyping] = useState(true);
+
+  // Easter egg: triple-click detection
+  const [showFlappy, setShowFlappy] = useState(false);
+  const [showTTT, setShowTTT] = useState(false);
+  const clickCountRef = useRef(0);
+  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleAvatarClick = useCallback((game: 'flappy' | 'ttt') => {
+    clickCountRef.current++;
+    if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+    if (clickCountRef.current >= 3) {
+      clickCountRef.current = 0;
+      if (game === 'flappy') setShowFlappy(true);
+      else setShowTTT(true);
+      return;
+    }
+    clickTimerRef.current = setTimeout(() => { clickCountRef.current = 0; }, 600);
+  }, []);
 
   // Typewriter effect for role
   useEffect(() => {
@@ -85,12 +106,12 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Navy mode: depth rings */}
+      {/* Navy mode: liquid aurora backdrop */}
       {theme === 'navy' && (
-        <div className="hero__navy-rings" aria-hidden="true">
-          <div className="hero__navy-ring" />
-          <div className="hero__navy-ring hero__navy-ring--2" />
-          <div className="hero__navy-ring hero__navy-ring--3" />
+        <div className="hero__liquid-aurora" aria-hidden="true">
+          <div className="hero__liquid-blob hero__liquid-blob--1" />
+          <div className="hero__liquid-blob hero__liquid-blob--2" />
+          <div className="hero__liquid-blob hero__liquid-blob--3" />
         </div>
       )}
 
@@ -155,7 +176,7 @@ export default function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* ── TERMINAL MODE: scan-line avatar with matrix border ── */}
+          {/* ── TERMINAL MODE ── */}
           {theme === 'dark' && (
             <div className="hero__profile-card hero__profile-card--terminal">
               <div className="hero__avatar-glow" aria-hidden="true" />
@@ -165,8 +186,8 @@ export default function Hero() {
                 <span className="hero__terminal-corner hero__terminal-corner--bl" />
                 <span className="hero__terminal-corner hero__terminal-corner--br" />
               </div>
-              <div className="hero__avatar hero__avatar--terminal">
-                <img src="/profilee.jpg" alt="Glen Dhale Caparros – profile photo"
+              <div className="hero__avatar hero__avatar--terminal" onClick={() => handleAvatarClick('ttt')} style={{ cursor: 'pointer' }}>
+                <img src="/profilee.jpg" alt="Glen Dhale Caparros"
                   className="hero__avatar-img hero__avatar-img--terminal"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -201,12 +222,12 @@ export default function Hero() {
             </div>
           )}
 
-          {/* ── RESUME MODE: clean document-style portrait ── */}
+          {/* ── RESUME MODE ── */}
           {theme === 'light' && (
             <div className="hero__profile-card hero__profile-card--resume">
               <div className="hero__resume-portrait">
                 <div className="hero__resume-portrait-inner">
-                  <img src="/profilee.jpg" alt="Glen Dhale Caparros – profile photo"
+                  <img src="/profilee.jpg" alt="Glen Dhale Caparros"
                     className="hero__avatar-img hero__avatar-img--resume"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -219,7 +240,7 @@ export default function Hero() {
               </div>
               <div className="hero__resume-byline">
                 <span className="hero__resume-name-label">Glen Dhale Caparros</span>
-                <span className="hero__resume-title-label">Web Developer · IoT Engineer · STEM Student</span>
+                <span className="hero__resume-title-label">Full Stack Developer · DevOps · UX Designer · STEM Student</span>
               </div>
               <div className="hero__resume-divider" aria-hidden="true" />
               <div className="hero__resume-meta-row">
@@ -235,23 +256,26 @@ export default function Hero() {
                 </div>
                 <div className="hero__resume-meta-item">
                   <span className="hero__resume-meta-key">Certs</span>
-                  <span className="hero__resume-meta-val">5 issued 2026</span>
+                  <span className="hero__resume-meta-val">7 issued 2026</span>
                 </div>
               </div>
             </div>
           )}
 
-          {/* ── SIGNATURE MODE: gold-framed portrait with depth ── */}
+          {/* ── SIGNATURE MODE: Liquid-morphing avatar ── */}
           {theme === 'navy' && (
             <div className="hero__profile-card hero__profile-card--signature">
-              <div className="hero__avatar-glow" aria-hidden="true" />
-              <div className="hero__signature-frame" aria-hidden="true">
-                <div className="hero__signature-frame-ring hero__signature-frame-ring--1" />
-                <div className="hero__signature-frame-ring hero__signature-frame-ring--2" />
-                <div className="hero__signature-frame-ring hero__signature-frame-ring--3" />
-              </div>
-              <div className="hero__avatar hero__avatar--signature">
-                <img src="/profilee.jpg" alt="Glen Dhale Caparros – profile photo"
+              {/* Liquid morphing blobs behind avatar */}
+              <div className="hero__liquid-ring hero__liquid-ring--1" aria-hidden="true" />
+              <div className="hero__liquid-ring hero__liquid-ring--2" aria-hidden="true" />
+              <div className="hero__liquid-ring hero__liquid-ring--3" aria-hidden="true" />
+
+              {/* Shimmer glow */}
+              <div className="hero__liquid-glow" aria-hidden="true" />
+
+              {/* Avatar with liquid morphing border */}
+              <div className="hero__avatar hero__avatar--liquid" onClick={() => handleAvatarClick('flappy')} style={{ cursor: 'pointer' }}>
+                <img src="/profilee.jpg" alt="Glen Dhale Caparros"
                   className="hero__avatar-img"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -261,10 +285,14 @@ export default function Hero() {
                 <div className="hero__avatar-gold-overlay" aria-hidden="true" />
                 <div className="hero__avatar-initials" aria-hidden="true">GD</div>
               </div>
+
+              {/* Status pill */}
               <div className="hero__avatar-status hero__avatar-status--gold" aria-hidden="true">
                 <span className="dot" /><span>Open to work</span>
               </div>
-              <motion.div className="hero__info-card hero__info-card--location"
+
+              {/* Floating info cards with glass effect */}
+              <motion.div className="hero__info-card hero__info-card--location hero__info-card--glass"
                 initial={reduced ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.6 }}>
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -272,17 +300,25 @@ export default function Hero() {
                 </svg>
                 <span>Gumaca, PH</span>
               </motion.div>
-              <motion.div className="hero__info-card hero__info-card--stack"
+              <motion.div className="hero__info-card hero__info-card--stack hero__info-card--glass"
                 initial={reduced ? false : { opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0, duration: 0.6 }}>
                 <span className="hero__stack-icon">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                 </span>
-                <span>ESP32 + Firebase</span>
+                <span>Full Stack + DevOps</span>
               </motion.div>
             </div>
           )}
         </motion.div>
+
+        {/* Easter egg game overlays */}
+        <AnimatePresence>
+          {showFlappy && theme === 'navy' && <FlappyGoldBar onClose={() => setShowFlappy(false)} />}
+        </AnimatePresence>
+        <AnimatePresence>
+          {showTTT && theme === 'dark' && <TicTacToe onClose={() => setShowTTT(false)} />}
+        </AnimatePresence>
 
         {/* Scroll indicator */}
         <motion.div
@@ -304,7 +340,7 @@ export default function Hero() {
       {/* Floating tech chips (decorative) */}
       {!reduced && (
         <div className="hero__chips" aria-hidden="true">
-          {['ESP32', 'Firebase', 'RFID', 'HTML5', 'CSS3', 'JS'].map((chip, i) => (
+          {['React', 'Python', 'Docker', 'Figma', 'CI/CD', 'K8s'].map((chip, i) => (
             <motion.span
               key={chip}
               className="hero__chip"
@@ -328,7 +364,7 @@ export default function Hero() {
           padding-top: 80px;
         }
 
-        /* Dark mode: terminal aesthetic grid */
+        /* Dark mode grid */
         .hero--dark .hero__grid {
           background-image:
             linear-gradient(rgba(0,255,70,0.03) 1px, transparent 1px),
@@ -337,14 +373,14 @@ export default function Hero() {
           mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 100%);
         }
 
-        /* Light mode: subtle dot grid */
+        /* Light mode dot grid */
         .hero--light .hero__grid {
           background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
           background-size: 28px 28px;
           mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 100%);
         }
 
-        /* Navy mode: no hard grid — depth handled by rings and particles */
+        /* Navy mode fine dot grid */
         .hero--navy .hero__grid {
           background-image: radial-gradient(circle, rgba(126,184,247,0.04) 1px, transparent 1px);
           background-size: 32px 32px;
@@ -354,9 +390,6 @@ export default function Hero() {
         .hero__grid {
           position: absolute;
           inset: 0;
-          background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-          background-size: 32px 32px;
-          mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 100%);
         }
 
         .hero__orb {
@@ -374,6 +407,52 @@ export default function Hero() {
           width: 400px; height: 400px;
           background: radial-gradient(circle, var(--green-glow, rgba(34,197,94,0.05)) 0%, transparent 70%);
           bottom: 0; right: -80px;
+        }
+
+        /* ── Liquid aurora backdrop (navy only) ── */
+        .hero__liquid-aurora {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .hero__liquid-blob {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(90px);
+          mix-blend-mode: screen;
+        }
+        .hero__liquid-blob--1 {
+          width: 500px; height: 500px;
+          background: radial-gradient(circle, rgba(200,169,110,0.12) 0%, transparent 70%);
+          top: 10%; right: 5%;
+          animation: liquid-drift-1 12s ease-in-out infinite alternate;
+        }
+        .hero__liquid-blob--2 {
+          width: 400px; height: 400px;
+          background: radial-gradient(circle, rgba(126,184,247,0.10) 0%, transparent 70%);
+          bottom: 10%; left: 10%;
+          animation: liquid-drift-2 15s ease-in-out infinite alternate;
+        }
+        .hero__liquid-blob--3 {
+          width: 350px; height: 350px;
+          background: radial-gradient(circle, rgba(148,103,255,0.08) 0%, transparent 70%);
+          top: 40%; left: 50%;
+          animation: liquid-drift-3 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes liquid-drift-1 {
+          0% { transform: translate(0, 0) scale(1); }
+          100% { transform: translate(-60px, 40px) scale(1.15); }
+        }
+        @keyframes liquid-drift-2 {
+          0% { transform: translate(0, 0) scale(1); }
+          100% { transform: translate(50px, -30px) scale(1.1); }
+        }
+        @keyframes liquid-drift-3 {
+          0% { transform: translate(0, 0) scale(1); }
+          100% { transform: translate(-40px, -50px) scale(1.2); }
         }
 
         /* Dark mode: terminal title bar */
@@ -397,48 +476,12 @@ export default function Hero() {
           pointer-events: none;
         }
         .hero__terminal-dot {
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-          flex-shrink: 0;
+          width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
         }
         .hero__terminal-dot--r { background: #ff5f57; }
         .hero__terminal-dot--y { background: #ffbd2e; }
         .hero__terminal-dot--g { background: #28c840; }
         .hero__terminal-path { margin-left: 6px; }
-
-        /* Navy depth rings (background decoration) */
-        .hero__navy-rings {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          padding-right: 8%;
-          pointer-events: none;
-          z-index: 0;
-        }
-        .hero__navy-ring {
-          position: absolute;
-          border-radius: 50%;
-          border: 1px solid rgba(126, 184, 247, 0.04);
-          width: 600px; height: 600px;
-          animation: navy-ring-pulse 6s ease-in-out infinite;
-        }
-        .hero__navy-ring--2 {
-          width: 780px; height: 780px;
-          animation-delay: 2s;
-          border-color: rgba(126, 184, 247, 0.025);
-        }
-        .hero__navy-ring--3 {
-          width: 960px; height: 960px;
-          animation-delay: 4s;
-          border-color: rgba(126, 184, 247, 0.015);
-        }
-        @keyframes navy-ring-pulse {
-          0%, 100% { opacity: 0.6; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.015); }
-        }
 
         .hero__content {
           position: relative;
@@ -481,8 +524,6 @@ export default function Hero() {
           color: transparent;
           -webkit-text-stroke: 2px var(--green);
         }
-
-        /* Navy: gold accent on second line */
         .hero--navy .hero__heading-line--accent {
           -webkit-text-stroke-color: var(--gold, var(--green));
         }
@@ -557,7 +598,7 @@ export default function Hero() {
           color: var(--green);
         }
 
-        /* Navy: gold CTA button */
+        /* Navy: gold CTA */
         .hero--navy .hero__btn--primary {
           background: linear-gradient(135deg, var(--gold, #c8a96e) 0%, #a87d3c 100%);
           color: #1a0f00;
@@ -578,7 +619,7 @@ export default function Hero() {
           justify-content: center;
         }
 
-        /* ── Terminal mode profile ──────────────────────────── */
+        /* ── Terminal mode profile ── */
         .hero__avatar--terminal {
           border-color: var(--green) !important;
           border-radius: 4px !important;
@@ -593,11 +634,8 @@ export default function Hero() {
           position: absolute;
           inset: 0;
           background: repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 3px,
-            rgba(0,255,70,0.025) 3px,
-            rgba(0,255,70,0.025) 4px
+            0deg, transparent, transparent 3px,
+            rgba(0,255,70,0.025) 3px, rgba(0,255,70,0.025) 4px
           );
           pointer-events: none;
           z-index: 2;
@@ -620,7 +658,7 @@ export default function Hero() {
         .hero__terminal-corner--bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
         .hero__terminal-corner--br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
 
-        /* ── Resume mode profile ───────────────────────────── */
+        /* ── Resume mode profile ── */
         .hero__profile-card--resume {
           display: flex;
           flex-direction: column;
@@ -645,7 +683,6 @@ export default function Hero() {
           align-items: center;
           justify-content: center;
         }
-        .hero__resume-portrait--fallback { }
         .hero__avatar-img--resume {
           width: 100%;
           height: 100%;
@@ -739,24 +776,120 @@ export default function Hero() {
           color: var(--green);
         }
 
-        /* ── Signature mode profile ────────────────────────── */
-        .hero__avatar--signature {
+        /* ════════════════════════════════════════════════════
+           SIGNATURE MODE — LIQUID ANIMATIONS
+           ════════════════════════════════════════════════════ */
+
+        /* Liquid morphing rings */
+        .hero__liquid-ring {
+          position: absolute;
+          pointer-events: none;
+          border: 1px solid var(--gold, #c8a96e);
+        }
+        .hero__liquid-ring--1 {
+          width: 260px; height: 260px;
+          opacity: 0.20;
+          animation: liquid-morph-1 8s ease-in-out infinite, ring-rotate 12s linear infinite;
+        }
+        .hero__liquid-ring--2 {
+          width: 310px; height: 310px;
+          opacity: 0.12;
+          animation: liquid-morph-2 10s ease-in-out infinite, ring-rotate 20s linear infinite reverse;
+        }
+        .hero__liquid-ring--3 {
+          width: 360px; height: 360px;
+          opacity: 0.06;
+          animation: liquid-morph-3 12s ease-in-out infinite, ring-rotate 28s linear infinite;
+        }
+
+        @keyframes liquid-morph-1 {
+          0%   { border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%; }
+          25%  { border-radius: 58% 42% 44% 56% / 63% 37% 59% 41%; }
+          50%  { border-radius: 37% 63% 56% 44% / 59% 41% 42% 58%; }
+          75%  { border-radius: 56% 44% 41% 59% / 37% 63% 58% 42%; }
+          100% { border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%; }
+        }
+        @keyframes liquid-morph-2 {
+          0%   { border-radius: 55% 45% 52% 48% / 38% 62% 44% 56%; }
+          33%  { border-radius: 45% 55% 38% 62% / 52% 48% 56% 44%; }
+          66%  { border-radius: 48% 52% 62% 38% / 44% 56% 45% 55%; }
+          100% { border-radius: 55% 45% 52% 48% / 38% 62% 44% 56%; }
+        }
+        @keyframes liquid-morph-3 {
+          0%   { border-radius: 48% 52% 45% 55% / 53% 47% 58% 42%; }
+          50%  { border-radius: 52% 48% 55% 45% / 47% 53% 42% 58%; }
+          100% { border-radius: 48% 52% 45% 55% / 53% 47% 58% 42%; }
+        }
+
+        /* Liquid glow behind avatar */
+        .hero__liquid-glow {
+          position: absolute;
+          width: 280px; height: 280px;
+          border-radius: 50%;
+          background: radial-gradient(circle,
+            rgba(200,169,110,0.18) 0%,
+            rgba(126,184,247,0.08) 40%,
+            transparent 70%
+          );
+          filter: blur(30px);
+          animation: liquid-glow-pulse 4s ease-in-out infinite, liquid-morph-1 10s ease-in-out infinite;
+          pointer-events: none;
+        }
+
+        @keyframes liquid-glow-pulse {
+          0%, 100% { opacity: 0.6; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* Liquid avatar border */
+        .hero__avatar--liquid {
           border-color: var(--gold, #c8a96e) !important;
-          box-shadow: 0 0 0 6px rgba(200,169,110,0.12), 0 24px 64px rgba(0,0,0,0.5) !important;
           overflow: hidden;
+          animation: liquid-avatar-morph 8s ease-in-out infinite;
+          box-shadow:
+            0 0 0 4px rgba(200,169,110,0.15),
+            0 0 40px rgba(200,169,110,0.12),
+            0 24px 64px rgba(0,0,0,0.5) !important;
+          transition: box-shadow 0.5s ease;
         }
-        .hero__avatar--signature:hover {
-          box-shadow: 0 0 0 12px rgba(200,169,110,0.18), 0 32px 80px rgba(0,0,0,0.6) !important;
+        .hero__avatar--liquid:hover {
+          box-shadow:
+            0 0 0 8px rgba(200,169,110,0.22),
+            0 0 60px rgba(200,169,110,0.20),
+            0 32px 80px rgba(0,0,0,0.6) !important;
         }
+
+        @keyframes liquid-avatar-morph {
+          0%   { border-radius: 60% 40% 55% 45% / 55% 45% 60% 40%; }
+          25%  { border-radius: 45% 55% 40% 60% / 60% 40% 45% 55%; }
+          50%  { border-radius: 50% 50% 60% 40% / 40% 60% 50% 50%; }
+          75%  { border-radius: 40% 60% 45% 55% / 55% 45% 40% 60%; }
+          100% { border-radius: 60% 40% 55% 45% / 55% 45% 60% 40%; }
+        }
+
+        /* Gold shimmer overlay */
         .hero__avatar-gold-overlay {
           position: absolute;
           inset: 0;
-          background: radial-gradient(ellipse 80% 50% at 30% 20%, rgba(200,169,110,0.12) 0%, transparent 60%);
+          background: linear-gradient(
+            135deg,
+            rgba(200,169,110,0.0) 0%,
+            rgba(200,169,110,0.15) 45%,
+            rgba(255,220,150,0.25) 50%,
+            rgba(200,169,110,0.15) 55%,
+            rgba(200,169,110,0.0) 100%
+          );
+          background-size: 250% 250%;
+          animation: gold-shimmer 4s ease-in-out infinite;
           pointer-events: none;
           z-index: 2;
-          transition: opacity 0.4s ease;
+          mix-blend-mode: overlay;
         }
-        .hero__avatar--signature:hover .hero__avatar-gold-overlay { opacity: 0; }
+        @keyframes gold-shimmer {
+          0% { background-position: 200% 200%; }
+          100% { background-position: -50% -50%; }
+        }
+
         .hero__avatar-status--gold {
           border-color: var(--gold, #c8a96e) !important;
           color: var(--gold, #c8a96e) !important;
@@ -765,23 +898,17 @@ export default function Hero() {
           background: var(--gold, #c8a96e) !important;
           box-shadow: 0 0 6px var(--gold, #c8a96e);
         }
-        .hero__signature-frame {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          pointer-events: none;
-        }
-        .hero__signature-frame-ring {
-          position: absolute;
-          border-radius: 50%;
-          border: 1px solid var(--gold, #c8a96e);
-        }
-        .hero__signature-frame-ring--1 { width: 240px; height: 240px; opacity: 0.18; animation: ring-rotate 10s linear infinite; border-style: dashed; }
-        .hero__signature-frame-ring--2 { width: 292px; height: 292px; opacity: 0.10; animation: ring-rotate 18s linear infinite reverse; }
-        .hero__signature-frame-ring--3 { width: 344px; height: 344px; opacity: 0.05; animation: ring-rotate 26s linear infinite; }
 
+        /* Glass info cards */
+        .hero__info-card--glass {
+          background: rgba(13, 24, 41, 0.65) !important;
+          border: 1px solid rgba(200, 169, 110, 0.15) !important;
+          backdrop-filter: blur(16px) !important;
+          -webkit-backdrop-filter: blur(16px) !important;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(200,169,110,0.08) !important;
+        }
+
+        /* Common avatar styles */
         .hero__avatar-glow {
           position: absolute;
           inset: -20px;
@@ -880,7 +1007,7 @@ export default function Hero() {
           padding: 7px 14px;
           background: var(--bg-elevated);
           border: 1px solid var(--border);
-          border-radius: var(--radius-md);
+          border-radius: 8px;
           font-family: var(--font-mono);
           font-size: 11px;
           color: var(--text-muted);
@@ -951,9 +1078,9 @@ export default function Hero() {
           .hero__visual { order: -1; margin-bottom: 8px; }
           .hero__profile-card { width: 240px; height: 240px; }
           .hero__avatar { width: 150px; height: 150px; }
-          .hero__ring--1 { width: 180px; height: 180px; }
-          .hero__ring--2 { width: 210px; height: 210px; }
-          .hero__ring--3 { width: 240px; height: 240px; }
+          .hero__ring--1, .hero__liquid-ring--1 { width: 180px; height: 180px; }
+          .hero__ring--2, .hero__liquid-ring--2 { width: 210px; height: 210px; }
+          .hero__ring--3, .hero__liquid-ring--3 { width: 240px; height: 240px; }
           .hero__avatar-status { bottom: 50px; }
           .hero__badge { margin-inline: auto; }
           .hero__desc { margin-inline: auto; }
@@ -963,7 +1090,7 @@ export default function Hero() {
           .hero__heading-line--accent { -webkit-text-stroke-width: 1.5px; }
           .hero__info-card { display: none; }
           .hero__terminal-bar { display: none; }
-          .hero__navy-rings { display: none; }
+          .hero__liquid-aurora { display: none; }
         }
       `}</style>
     </section>

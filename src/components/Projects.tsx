@@ -5,43 +5,39 @@ import { projects } from '../data/portfolio';
 import { useTheme } from '../App';
 import type { Project } from '../types';
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectEntry({ project, index }: { project: Project; index: number }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
     <ScrollReveal delay={index * 0.1}>
       <motion.article
-        className={`project-card ${project.featured ? 'project-card--featured' : ''}`}
-        whileHover={{ y: -4 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className={`proj-entry ${project.featured ? 'proj-entry--featured' : ''}`}
         layout
       >
-        {/* Card header */}
-        <div className="project-card__header">
-          <div className="project-card__meta">
-            <span className="project-card__num">
-              {String(index + 1).padStart(2, '0')}
-            </span>
+        {/* Top row: number + year */}
+        <div className="proj-entry__top">
+          <div className="proj-entry__num-wrap">
+            <span className="proj-entry__num">{String(index + 1).padStart(2, '0')}</span>
             {project.featured && (
-              <span className="project-card__featured-badge">Featured</span>
+              <span className="proj-entry__featured">Featured</span>
             )}
           </div>
-          <span className="project-card__year">{project.year}</span>
+          <time className="proj-entry__year">{project.year}</time>
         </div>
 
         {/* Title */}
-        <h3 className="project-card__title">
+        <h3 className="proj-entry__title">
           {project.link ? (
-            <a 
-              href={project.link} 
-              target="_blank" 
+            <a
+              href={project.link}
+              target="_blank"
               rel="noopener noreferrer"
-              className="project-card__title-link"
+              className="proj-entry__title-link"
             >
               {project.title}
-              <svg 
-                className="project-card__title-icon" 
-                width="14" height="14" viewBox="0 0 24 24" fill="none" 
+              <svg
+                className="proj-entry__arrow"
+                width="18" height="18" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
               >
                 <path d="M7 17L17 7M17 7H7M17 7V17"/>
@@ -53,23 +49,21 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </h3>
 
         {/* Description */}
-        <p className="project-card__desc">{project.description}</p>
+        <p className="proj-entry__desc">{project.description}</p>
 
-        {/* Bullets (expandable on non-featured) */}
+        {/* Bullets (expandable) */}
         <AnimatePresence initial={false}>
           {(project.featured || expanded) && (
             <motion.ul
-              className="project-card__bullets"
+              className="proj-entry__bullets"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
               {project.bullets.map((b, i) => (
-                <li key={i} className="project-card__bullet">
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                    <circle cx="5" cy="5" r="2" fill="var(--green)" />
-                  </svg>
+                <li key={i} className="proj-entry__bullet">
+                  <span className="proj-entry__bullet-dash" aria-hidden="true">--</span>
                   {b}
                 </li>
               ))}
@@ -78,35 +72,28 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </AnimatePresence>
 
         {/* Tags */}
-        <div className="project-card__tags">
+        <div className="proj-entry__tags">
           {project.tags.map(t => (
             <span key={t} className="tag">{t}</span>
           ))}
         </div>
 
-        {/* Expand toggle (non-featured only) */}
+        {/* Expand toggle */}
         {!project.featured && (
           <button
-            className="project-card__toggle"
+            className="proj-entry__toggle"
             onClick={() => setExpanded(e => !e)}
             aria-expanded={expanded}
           >
             {expanded ? 'Show less' : 'Show details'}
             <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              aria-hidden="true"
+              width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"
               style={{ transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }}
             >
               <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         )}
-
-        {/* Hover border glow (decorative) */}
-        <div className="project-card__glow" aria-hidden="true" />
       </motion.article>
     </ScrollReveal>
   );
@@ -114,8 +101,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
 export default function Projects() {
   const { theme } = useTheme();
-  const featured = projects.filter(p => p.featured);
-  const rest = projects.filter(p => !p.featured);
 
   return (
     <section className={`projects section projects--${theme}`} id="projects">
@@ -138,17 +123,10 @@ export default function Projects() {
           </div>
         </ScrollReveal>
 
-        {/* Featured projects */}
-        <div className="projects__featured">
-          {featured.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i} />
-          ))}
-        </div>
-
-        {/* Rest of projects */}
-        <div className="projects__grid">
-          {rest.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={featured.length + i} />
+        {/* All projects as editorial entries */}
+        <div className="projects__list">
+          {projects.map((p, i) => (
+            <ProjectEntry key={p.id} project={p} index={i} />
           ))}
         </div>
       </div>
@@ -174,60 +152,40 @@ export default function Projects() {
           text-align: right;
         }
 
-        .projects__featured {
-          margin-bottom: 20px;
-        }
-        .projects__grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
+        .projects__list {
+          display: flex;
+          flex-direction: column;
         }
 
-        /* Project Card */
-        .project-card {
-          position: relative;
-          background: var(--bg-elevated);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-lg);
-          padding: 36px;
-          overflow: hidden;
+        /* ── Project entry (editorial, no card) ─────────── */
+        .proj-entry {
+          padding: 40px 0;
+          border-bottom: 1px solid var(--border);
           cursor: default;
-          transition: border-color 0.3s var(--ease);
-          margin-bottom: 20px;
+          position: relative;
         }
-        .project-card:hover {
-          border-color: rgba(34, 197, 94, 0.3);
-        }
-        .project-card:hover .project-card__glow {
-          opacity: 1;
+        .proj-entry:first-child {
+          border-top: 1px solid var(--border);
         }
 
-        /* Featured gets extra flair */
-        .project-card--featured {
-          background: linear-gradient(135deg, var(--bg-elevated) 0%, rgba(34,197,94,0.04) 100%);
-        }
-        .project-card--featured .project-card__title {
-          font-size: clamp(24px, 3.5vw, 40px);
-        }
-
-        .project-card__header {
+        .proj-entry__top {
           display: flex;
           align-items: center;
           justify-content: space-between;
           margin-bottom: 20px;
         }
-        .project-card__meta {
+        .proj-entry__num-wrap {
           display: flex;
           align-items: center;
           gap: 12px;
         }
-        .project-card__num {
+        .proj-entry__num {
           font-family: var(--font-mono);
           font-size: 11px;
           color: var(--green);
           letter-spacing: 0.1em;
         }
-        .project-card__featured-badge {
+        .proj-entry__featured {
           padding: 3px 10px;
           border-radius: 100px;
           font-family: var(--font-mono);
@@ -237,21 +195,23 @@ export default function Projects() {
           border: 1px solid rgba(34,197,94,0.25);
           letter-spacing: 0.08em;
         }
-        .project-card__year {
+        .proj-entry__year {
           font-family: var(--font-mono);
           font-size: 11px;
           color: var(--text-subtle);
         }
 
-        .project-card__title {
-          font-size: clamp(20px, 2.5vw, 28px);
+        .proj-entry__title {
+          font-size: clamp(20px, 2.5vw, 32px);
           color: var(--text);
           margin-bottom: 16px;
           line-height: 1.15;
         }
+        .proj-entry--featured .proj-entry__title {
+          font-size: clamp(24px, 3.5vw, 40px);
+        }
 
-        /* New Title Link Styles */
-        .project-card__title-link {
+        .proj-entry__title-link {
           color: inherit;
           text-decoration: none;
           display: inline-flex;
@@ -259,31 +219,29 @@ export default function Projects() {
           gap: 8px;
           transition: color 0.3s var(--ease);
         }
-
-        .project-card__title-icon {
+        .proj-entry__arrow {
           opacity: 0;
           transform: translate(-4px, 4px);
           transition: all 0.3s var(--ease);
           color: var(--green);
         }
-
-        .project-card__title-link:hover {
+        .proj-entry__title-link:hover {
           color: var(--green);
         }
-
-        .project-card__title-link:hover .project-card__title-icon {
+        .proj-entry__title-link:hover .proj-entry__arrow {
           opacity: 1;
           transform: translate(0, 0);
         }
 
-        .project-card__desc {
+        .proj-entry__desc {
           font-size: 14px;
           line-height: 1.75;
           color: var(--text-muted);
           margin-bottom: 20px;
+          max-width: 640px;
         }
 
-        .project-card__bullets {
+        .proj-entry__bullets {
           list-style: none;
           display: flex;
           flex-direction: column;
@@ -291,7 +249,7 @@ export default function Projects() {
           margin-bottom: 20px;
           overflow: hidden;
         }
-        .project-card__bullet {
+        .proj-entry__bullet {
           display: flex;
           align-items: flex-start;
           gap: 10px;
@@ -299,19 +257,22 @@ export default function Projects() {
           color: var(--text-muted);
           line-height: 1.6;
         }
-        .project-card__bullet svg {
-          margin-top: 5px;
+        .proj-entry__bullet-dash {
+          font-family: var(--font-mono);
+          color: var(--green);
           flex-shrink: 0;
+          font-size: 12px;
+          margin-top: 1px;
         }
 
-        .project-card__tags {
+        .proj-entry__tags {
           display: flex;
           flex-wrap: wrap;
           gap: 7px;
           margin-top: 24px;
         }
 
-        .project-card__toggle {
+        .proj-entry__toggle {
           display: inline-flex;
           align-items: center;
           gap: 6px;
@@ -326,20 +287,9 @@ export default function Projects() {
           padding: 0;
           transition: opacity 0.2s;
         }
-        .project-card__toggle:hover { opacity: 0.7; }
-
-        /* Hover glow */
-        .project-card__glow {
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(34,197,94,0.06) 0%, transparent 70%);
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.4s var(--ease);
-        }
+        .proj-entry__toggle:hover { opacity: 0.7; }
 
         @media (max-width: 680px) {
-          .projects__grid { grid-template-columns: 1fr; }
           .projects__sub { text-align: left; max-width: 100%; }
         }
       `}</style>

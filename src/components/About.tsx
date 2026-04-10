@@ -54,8 +54,10 @@ export default function About() {
                 I'm Glen Dhale L. Caparros — a Grade 11 STEM student and self-taught
                 developer from Gumaca, Quezon, Philippines. I hold Professional Certificates
                 in <strong>Google AI</strong>, <strong>Google UX Design</strong>,{' '}
-                <strong>IBM Front-End Development</strong>, and{' '}
-                <strong>IBM Back-End Development</strong>, plus a Specialization in{' '}
+                <strong>IBM Front-End Development</strong>,{' '}
+                <strong>IBM Back-End Development</strong>,{' '}
+                <strong>IBM DevOps &amp; Software Engineering</strong>, and{' '}
+                <strong>IBM Full Stack Software Development</strong>, plus a Specialization in{' '}
                 <strong>SEO &amp; Generative Engine Optimization</strong>.
               </p>
             </ScrollReveal>
@@ -71,46 +73,47 @@ export default function About() {
 
             <ScrollReveal delay={0.28}>
               <div className="about__tags">
-                {['Google AI','UX Design','React / Front-End','SEO / GEO','ESP32 / IoT','Firebase RTDB','Figma','Responsive CSS'].map(t => (
+                {['Google AI', 'UX Design', 'React / Front-End', 'Python / Back-End', 'DevOps / CI/CD', 'Full Stack', 'SEO / GEO', 'ESP32 / IoT', 'Firebase RTDB', 'Figma', 'Docker / K8s', 'Responsive CSS'].map(t => (
                   <span key={t} className="tag">{t}</span>
                 ))}
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={0.34}>
-              <div className="about__cert-callout">
-                <div className="about__cert-callout-inner">
+              <div className="about__cert-strip">
+                <div className="about__cert-strip-inner">
                   <div className="about__cert-logos" aria-hidden="true">
                     <svg width="16" height="16" viewBox="0 0 24 24">
-                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                     </svg>
                     <span className="about__ibm-logo">IBM</span>
                   </div>
-                  <div>
-                    <div className="about__cert-callout-title">5 Certificates Earned · 2026</div>
-                    <div className="about__cert-callout-sub">Google AI · Google UX · IBM Front-End · IBM Back-End · SEO Mastery</div>
+                  <div className="about__cert-strip-text">
+                    <span className="about__cert-strip-title">7 Certificates Earned</span>
+                    <span className="about__cert-strip-sep" aria-hidden="true">/</span>
+                    <span className="about__cert-strip-year">2026</span>
                   </div>
                 </div>
-                <a href="#certifications" className="about__cert-callout-link">
+                <a href="#certifications" className="about__cert-strip-link">
                   View all
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                    <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
               </div>
             </ScrollReveal>
 
-            {/* Light mode: resume-style timeline callout */}
+            {/* Light mode: resume-style timeline */}
             {theme === 'light' && (
               <ScrollReveal delay={0.40}>
                 <div className="about__resume-strip">
                   <div className="about__resume-item">
                     <span className="about__resume-year">2026</span>
                     <span className="about__resume-dot" />
-                    <span className="about__resume-label">5 Professional Certificates</span>
+                    <span className="about__resume-label">7 Professional Certificates</span>
                   </div>
                   <div className="about__resume-item">
                     <span className="about__resume-year">2025</span>
@@ -127,36 +130,98 @@ export default function About() {
             )}
           </div>
 
-          {/* Right: visual card + stats */}
+          {/* Right: visual + stats */}
           <div className="about__right">
             <ScrollReveal delay={0.1} y={48}>
-              <div className="about__card" aria-hidden="true">
-                <div className="about__card-monogram">GD</div>
-                <div className="about__card-lines">
-                  {Array.from({ length: 7 }).map((_, i) => (
-                    <span key={i} className="about__card-line" />
-                  ))}
+              <div className="about__identity" aria-hidden="true">
+                <div className="about__identity-monogram">GD</div>
+                <div className="about__identity-rule" />
+                <div className="about__identity-meta">
+                  <span className="about__identity-name">Glen Dhale Caparros</span>
+                  <span className="about__identity-loc">
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                      <path d="M6 1C4.07 1 2.5 2.57 2.5 4.5c0 2.67 3.5 6.5 3.5 6.5s3.5-3.83 3.5-6.5C9.5 2.57 7.93 1 6 1Zm0 4.75a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z" fill="currentColor" />
+                    </svg>
+                    Gumaca, PH
+                  </span>
                 </div>
-                <div className="about__card-badge">
+                <div className="about__identity-status">
                   <span className="dot" />
                   <span>Open to opportunities</span>
-                </div>
-                <div className="about__card-location">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M6 1C4.07 1 2.5 2.57 2.5 4.5c0 2.67 3.5 6.5 3.5 6.5s3.5-3.83 3.5-6.5C9.5 2.57 7.93 1 6 1Zm0 4.75a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z" fill="currentColor"/>
-                  </svg>
-                  Gumaca, PH
                 </div>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={0.22}>
               <div className="about__stats">
-                <AnimatedStat value={5}  label="Certificates" />
-                <AnimatedStat value={10} label="Tech skills" suffix="+" />
-                <AnimatedStat value={2}  label="Years learning" suffix="+" />
+                <AnimatedStat value={7} label="Certificates" />
+                <AnimatedStat value={23} label="Tech skills" suffix="+" />
+                <AnimatedStat value={2} label="Years learning" suffix="+" />
               </div>
             </ScrollReveal>
+
+            {/* Resume download preview — RESUME UI ONLY */}
+            {theme === 'light' && (
+              <ScrollReveal delay={0.3}>
+                <div className="about__resume-preview">
+                  {/* Document thumbnail */}
+                  <a
+                    href="/glen-caparros-resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="about__resume-thumb-link"
+                    aria-label="Preview resume PDF"
+                  >
+                    <div className="about__resume-thumb">
+                      {/* Placeholder document icon */}
+                      <div className="about__resume-thumb-doc">
+                        <div className="about__resume-thumb-header">
+                          <div className="about__resume-thumb-bar" />
+                          <div className="about__resume-thumb-bar about__resume-thumb-bar--short" />
+                        </div>
+                        <div className="about__resume-thumb-body">
+                          <div className="about__resume-thumb-line" />
+                          <div className="about__resume-thumb-line" />
+                          <div className="about__resume-thumb-line about__resume-thumb-line--short" />
+                          <div className="about__resume-thumb-spacer" />
+                          <div className="about__resume-thumb-line" />
+                          <div className="about__resume-thumb-line" />
+                          <div className="about__resume-thumb-line about__resume-thumb-line--med" />
+                          <div className="about__resume-thumb-spacer" />
+                          <div className="about__resume-thumb-line" />
+                          <div className="about__resume-thumb-line about__resume-thumb-line--short" />
+                        </div>
+                        <div className="about__resume-thumb-badge">PDF</div>
+                      </div>
+                      <div className="about__resume-thumb-overlay">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <circle cx="12" cy="12" r="11" stroke="currentColor" strokeWidth="1.5" />
+                          <path d="M12 8v5M9.5 11l2.5 2.5 2.5-2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M8 16h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                    </div>
+                  </a>
+
+                  {/* Info + download button */}
+                  <div className="about__resume-info">
+                    <span className="about__resume-info-label">Resume</span>
+                    <span className="about__resume-info-file">glen-caparros-resume.pdf</span>
+                    <a
+                      href="/glen-caparros-resume.pdf"
+                      download="Glen_Caparros_Resume.pdf"
+                      className="about__resume-download-btn"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 4v12M8 12l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M4 17v2a1 1 0 001 1h14a1 1 0 001-1v-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                      Download Resume
+                    </a>
+                  </div>
+                </div>
+              </ScrollReveal>
+            )}
           </div>
         </div>
       </div>
@@ -176,8 +241,6 @@ export default function About() {
           color: var(--text);
         }
         .about__heading-accent { color: var(--green); font-style: italic; }
-
-        /* Navy: gold italic accent */
         .about--navy .about__heading-accent { color: var(--gold, var(--green)); }
 
         .about__para {
@@ -190,21 +253,18 @@ export default function About() {
 
         .about__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; margin-bottom: 28px; }
 
-        /* ── Cert call-out ─────────────────────────────────── */
-        .about__cert-callout {
+        /* ── Cert strip (editorial, not a card) ────────────── */
+        .about__cert-strip {
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 16px;
-          padding: 14px 18px;
-          border-radius: var(--radius-md);
-          background: var(--bg-elevated);
-          border: 1px solid var(--border);
+          padding: 16px 0;
+          border-top: 1px solid var(--border);
+          border-bottom: 1px solid var(--border);
           margin-top: 4px;
-          transition: border-color 0.25s var(--ease);
         }
-        .about__cert-callout:hover { border-color: var(--green); }
-        .about__cert-callout-inner { display: flex; align-items: center; gap: 14px; }
+        .about__cert-strip-inner { display: flex; align-items: center; gap: 14px; }
         .about__cert-logos { display: flex; align-items: center; gap: 6px; }
         .about__ibm-logo {
           font-family: var(--font-mono);
@@ -213,20 +273,28 @@ export default function About() {
           color: #0F62FE;
           letter-spacing: 0.06em;
         }
-        .about__cert-callout-title {
+        .about__cert-strip-text {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .about__cert-strip-title {
           font-family: var(--font-display);
           font-size: 13px;
           font-weight: 700;
           color: var(--text);
-          margin-bottom: 2px;
         }
-        .about__cert-callout-sub {
+        .about__cert-strip-sep {
+          font-size: 11px;
+          color: var(--text-subtle);
+        }
+        .about__cert-strip-year {
           font-family: var(--font-mono);
-          font-size: 10px;
-          color: var(--text-muted);
-          letter-spacing: 0.03em;
+          font-size: 11px;
+          color: var(--green);
+          letter-spacing: 0.06em;
         }
-        .about__cert-callout-link {
+        .about__cert-strip-link {
           display: inline-flex;
           align-items: center;
           gap: 6px;
@@ -237,7 +305,7 @@ export default function About() {
           flex-shrink: 0;
           transition: opacity 0.2s;
         }
-        .about__cert-callout-link:hover { opacity: 0.7; }
+        .about__cert-strip-link:hover { opacity: 0.7; }
 
         /* ── Light mode resume timeline ─────────────────────── */
         .about__resume-strip {
@@ -278,86 +346,66 @@ export default function About() {
           color: var(--text-muted);
         }
 
-        /* ── Identity card ──────────────────────────────────── */
-        .about__card {
-          background: var(--bg-elevated);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-lg);
-          padding: 32px;
-          position: relative;
-          overflow: hidden;
-          aspect-ratio: 4 / 3;
+        /* ── Identity block (replaces card) ───────────────── */
+        .about__identity {
+          padding: 40px 0;
+          border-top: 1px solid var(--border);
+          border-bottom: 1px solid var(--border);
+          margin-bottom: 20px;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-          margin-bottom: 20px;
-          transition: border-color 0.3s var(--ease);
+          gap: 16px;
         }
-        .about__card:hover { border-color: var(--border-hover); }
-        .about__card::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(ellipse 80% 60% at 70% 30%, color-mix(in srgb, var(--green) 5%, transparent) 0%, transparent 70%);
-          pointer-events: none;
-        }
-
-        .about__card-monogram {
+        .about__identity-monogram {
           font-family: var(--font-display);
           font-size: 96px;
           font-weight: 800;
           letter-spacing: -0.06em;
           line-height: 1;
           color: transparent;
-          -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+          -webkit-text-stroke: 1px var(--border-hover);
           user-select: none;
         }
-        /* Light mode monogram */
-        .about--light .about__card-monogram {
-          -webkit-text-stroke: 1px rgba(0,0,0,0.06);
+        .about--light .about__identity-monogram {
+          -webkit-text-stroke: 1px rgba(0,0,0,0.08);
         }
-
-        .about__card-lines {
-          position: absolute;
-          bottom: 60px; left: 32px; right: 32px;
+        .about__identity-rule {
+          width: 48px;
+          height: 1px;
+          background: var(--green);
+          opacity: 0.5;
+        }
+        .about--navy .about__identity-rule {
+          background: var(--gold, var(--green));
+        }
+        .about__identity-meta {
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 4px;
         }
-        .about__card-line { display: block; height: 1px; background: var(--border); border-radius: 1px; }
-        .about__card-line:nth-child(1) { width: 100%; }
-        .about__card-line:nth-child(2) { width: 72%; }
-        .about__card-line:nth-child(3) { width: 88%; }
-        .about__card-line:nth-child(4) { width: 55%; }
-        .about__card-line:nth-child(5) { width: 80%; }
-        .about__card-line:nth-child(6) { width: 65%; }
-        .about__card-line:nth-child(7) { width: 40%; }
-
-        .about__card-badge {
-          position: absolute;
-          top: 28px; right: 28px;
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          padding: 6px 14px;
-          border: 1px solid rgba(34,197,94,0.25);
-          border-radius: 100px;
-          font-family: var(--font-mono);
-          font-size: 10px;
-          color: var(--green);
-          background: var(--green-dim);
-          letter-spacing: 0.05em;
+        .about__identity-name {
+          font-family: var(--font-display);
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text);
+          letter-spacing: -0.01em;
         }
-
-        .about__card-location {
+        .about__identity-loc {
           display: flex;
           align-items: center;
           gap: 6px;
           font-family: var(--font-mono);
           font-size: 11px;
           color: var(--text-muted);
-          position: relative;
-          z-index: 1;
+        }
+        .about__identity-status {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          color: var(--green);
+          letter-spacing: 0.05em;
         }
 
         /* ── Stats grid ─────────────────────────────────────── */
@@ -367,11 +415,11 @@ export default function About() {
           gap: 1px;
           background: var(--border);
           border: 1px solid var(--border);
-          border-radius: var(--radius-md);
+          border-radius: 4px;
           overflow: hidden;
         }
         .about__stat {
-          background: var(--bg-elevated);
+          background: var(--bg);
           padding: 24px 20px;
           text-align: center;
           transition: background 0.2s;
@@ -392,12 +440,163 @@ export default function About() {
           font-family: var(--font-mono);
           letter-spacing: 0.05em;
         }
-
-        /* Navy: gold stat values */
         .about--navy .about__stat-value { color: var(--gold, var(--green)); }
+
+        /* ── Resume preview (light mode only) ─────────────── */
+        .about__resume-preview {
+          display: flex;
+          gap: 20px;
+          align-items: center;
+          margin-top: 20px;
+          padding: 20px;
+          border: 1px solid rgba(0,0,0,0.07);
+          border-radius: 4px;
+          background: #fff;
+          transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .about__resume-preview:hover {
+          border-color: rgba(26,107,60,0.25);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .about__resume-thumb-link {
+          display: block;
+          flex-shrink: 0;
+          text-decoration: none;
+          color: inherit;
+        }
+
+        .about__resume-thumb {
+          position: relative;
+          width: 90px;
+          height: 120px;
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 3px;
+          background: #f8f9fb;
+          overflow: hidden;
+          cursor: pointer;
+          transition: transform 0.25s var(--ease), box-shadow 0.25s;
+        }
+        .about__resume-thumb:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        .about__resume-thumb:hover .about__resume-thumb-overlay {
+          opacity: 1;
+        }
+
+        .about__resume-thumb-doc {
+          padding: 10px 10px 8px;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+        .about__resume-thumb-header {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          margin-bottom: 8px;
+        }
+        .about__resume-thumb-bar {
+          height: 3px;
+          border-radius: 1px;
+          background: rgba(0,0,0,0.12);
+          width: 70%;
+        }
+        .about__resume-thumb-bar--short { width: 45%; }
+
+        .about__resume-thumb-body {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          flex: 1;
+        }
+        .about__resume-thumb-line {
+          height: 2px;
+          border-radius: 1px;
+          background: rgba(0,0,0,0.06);
+          width: 100%;
+        }
+        .about__resume-thumb-line--short { width: 60%; }
+        .about__resume-thumb-line--med { width: 80%; }
+        .about__resume-thumb-spacer { height: 4px; }
+
+        .about__resume-thumb-badge {
+          position: absolute;
+          bottom: 6px;
+          right: 6px;
+          font-family: var(--font-mono);
+          font-size: 8px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          color: #fff;
+          background: var(--green);
+          padding: 2px 5px;
+          border-radius: 2px;
+          line-height: 1;
+        }
+
+        .about__resume-thumb-overlay {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(26,107,60,0.08);
+          color: var(--green);
+          opacity: 0;
+          transition: opacity 0.25s;
+        }
+
+        .about__resume-info {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          flex: 1;
+          min-width: 0;
+        }
+        .about__resume-info-label {
+          font-family: var(--font-mono);
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--text-subtle);
+        }
+        .about__resume-info-file {
+          font-family: var(--font-mono);
+          font-size: 12px;
+          color: var(--text-muted);
+          letter-spacing: 0.02em;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-bottom: 8px;
+        }
+        .about__resume-download-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 18px;
+          background: var(--green);
+          color: #fff;
+          border-radius: 4px;
+          font-family: var(--font-mono);
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          transition: all 0.22s var(--ease);
+          width: fit-content;
+          text-decoration: none;
+        }
+        .about__resume-download-btn:hover {
+          background: #15593a;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(26,107,60,0.20);
+        }
 
         @media (max-width: 860px) {
           .about__grid { grid-template-columns: 1fr; gap: 56px; }
+          .about__resume-preview { flex-direction: column; align-items: flex-start; }
         }
       `}</style>
     </section>

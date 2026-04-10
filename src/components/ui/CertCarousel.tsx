@@ -85,7 +85,6 @@ export default function CertCarousel() {
   const accent = accentOf(active);
   const modeLabel = MODE_LABEL[theme] ?? 'Certifications';
   const isTerminal = theme === 'dark';
-  const isResume   = theme === 'light';
   const isSignature= theme === 'navy';
 
   const variants = {

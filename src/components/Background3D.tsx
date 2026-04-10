@@ -73,7 +73,7 @@ export default function Background3D() {
 
     const drawMatrix = () => {
       const theme = document.documentElement.getAttribute('data-theme');
-      if (theme !== 'dark') {
+      if (theme !== 'dark' && theme !== 'navy') {
         matrixRafRef.current = requestAnimationFrame(drawMatrix);
         return;
       }
@@ -106,12 +106,16 @@ export default function Background3D() {
           let color: string;
 
           if (i === 0) {
-            // Leading character: bright white-green
+            // Leading character: bright white-green or bright white-blue
             alpha = col.opacity * 8;
-            color = `rgba(200, 255, 200, ${Math.min(alpha, 0.9)})`;
+            color = theme === 'navy' 
+              ? `rgba(200, 230, 255, ${Math.min(alpha, 0.9)})` 
+              : `rgba(200, 255, 200, ${Math.min(alpha, 0.9)})`;
           } else {
             alpha = col.opacity * fadeRatio * 4;
-            color = `rgba(0, 255, 70, ${Math.min(alpha, 0.55)})`;
+            color = theme === 'navy'
+              ? `rgba(126, 184, 247, ${Math.min(alpha, 0.55)})`
+              : `rgba(0, 255, 70, ${Math.min(alpha, 0.55)})`;
           }
 
           ctx.font = `${colWidth - 2}px "JetBrains Mono", monospace`;

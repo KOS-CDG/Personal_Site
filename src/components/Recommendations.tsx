@@ -4,25 +4,24 @@ import ScrollReveal from './ui/ScrollReveal';
 import { recommendations as initialRecs } from '../data/portfolio';
 import type { Recommendation } from '../types';
 
-function RecCard({ rec, index }: { rec: Recommendation; index: number }) {
+function RecEntry({ rec, index }: { rec: Recommendation; index: number }) {
   return (
     <ScrollReveal delay={index * 0.09}>
-      <article className="rec-card">
-        {/* Quote mark */}
-        <span className="rec-card__quote" aria-hidden="true">"</span>
+      <article className="rec-entry">
+        <div className="rec-entry__accent" aria-hidden="true" />
 
-        <p className="rec-card__text">{rec.text}</p>
-
-        <footer className="rec-card__footer">
-          {/* Initials avatar */}
-          <div className="rec-card__avatar" aria-hidden="true">
-            {rec.name.split(' ')[0][0]}
-          </div>
-          <div className="rec-card__author">
-            <span className="rec-card__name">{rec.name}</span>
-            <span className="rec-card__role">{rec.role}</span>
-          </div>
-        </footer>
+        <div className="rec-entry__body">
+          <p className="rec-entry__text">{rec.text}</p>
+          {(rec.name || rec.role) && (
+            <footer className="rec-entry__footer">
+              <span className="rec-entry__dash" aria-hidden="true" />
+              <div className="rec-entry__author">
+                <span className="rec-entry__name">{rec.name || 'Anonymous'}</span>
+                {rec.role && <span className="rec-entry__role">{rec.role}</span>}
+              </div>
+            </footer>
+          )}
+        </div>
       </article>
     </ScrollReveal>
   );
@@ -55,7 +54,7 @@ function SuccessModal({ onClose }: { onClose: () => void }) {
             <path d="M8.5 14.5l4 4 7-8" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h3 id="modal-title" className="modal-box__title">Thank you!</h3>
+        <h3 id="modal-title" className="modal-box__title">Thank you</h3>
         <p className="modal-box__body">Your recommendation has been added successfully.</p>
         <button className="modal-box__btn" onClick={onClose}>
           Close
@@ -107,112 +106,110 @@ export default function Recommendations() {
           </div>
         </ScrollReveal>
 
-        <div className="recs__layout">
-          {/* Left: heading + form */}
-          <div className="recs__left">
-            <ScrollReveal delay={0.06}>
-              <h2 className="recs__heading">
-                What others<br />
-                are saying.
-              </h2>
-            </ScrollReveal>
-            <ScrollReveal delay={0.12}>
-              <p className="recs__sub">
-                Colleagues, teachers, and collaborators who've seen the work firsthand.
-              </p>
-            </ScrollReveal>
+        {/* Heading */}
+        <ScrollReveal delay={0.06}>
+          <h2 className="recs__heading">
+            What others are saying
+          </h2>
+        </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <p className="recs__sub">
+            Colleagues, teachers, and collaborators who have seen the work firsthand.
+          </p>
+        </ScrollReveal>
 
-            {/* Form */}
-            <ScrollReveal delay={0.18}>
-              <div className="recs__form-wrap">
-                <h3 className="recs__form-title">Leave a recommendation</h3>
-                <form className="recs__form" onSubmit={handleSubmit} noValidate>
-                  <div className="recs__form-row">
-                    <div className="recs__field">
-                      <label htmlFor="rec-name" className="recs__label">
-                        Name <span className="recs__optional">(optional)</span>
-                      </label>
-                      <input
-                        id="rec-name"
-                        type="text"
-                        className="recs__input"
-                        placeholder="Your name"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        maxLength={60}
-                      />
-                    </div>
-                    <div className="recs__field">
-                      <label htmlFor="rec-role" className="recs__label">
-                        Role <span className="recs__optional">(optional)</span>
-                      </label>
-                      <input
-                        id="rec-role"
-                        type="text"
-                        className="recs__input"
-                        placeholder="e.g. Teacher, Classmate"
-                        value={role}
-                        onChange={e => setRole(e.target.value)}
-                        maxLength={60}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="recs__field">
-                    <label htmlFor="rec-text" className="recs__label">
-                      Message <span className="recs__required">*</span>
-                    </label>
-                    <textarea
-                      id="rec-text"
-                      className={`recs__textarea ${error ? 'recs__textarea--error' : ''}`}
-                      placeholder="Share your experience working with Glen…"
-                      value={text}
-                      onChange={e => { setText(e.target.value); if (error) setError(''); }}
-                      rows={4}
-                      maxLength={400}
-                      aria-describedby={error ? 'rec-error' : undefined}
-                    />
-                    <div className="recs__field-footer">
-                      {error && (
-                        <span id="rec-error" className="recs__error" role="alert">
-                          {error}
-                        </span>
-                      )}
-                      <span className="recs__char-count">
-                        {text.length}/400
-                      </span>
-                    </div>
-                  </div>
-
-                  <button type="submit" className="recs__submit">
-                    Submit Recommendation
-                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                      <path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                </form>
-              </div>
-            </ScrollReveal>
-          </div>
-
-          {/* Right: rec cards */}
-          <div className="recs__cards">
-            <AnimatePresence mode="popLayout">
-              {recs.map((r, i) => (
-                <motion.div
-                  key={r.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <RecCard rec={r} index={i} />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
+        {/* Entries */}
+        <div className="recs__entries">
+          <AnimatePresence mode="popLayout">
+            {recs.map((r, i) => (
+              <motion.div
+                key={r.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <RecEntry rec={r} index={i} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
+
+        {/* Divider */}
+        <div className="recs__divider" />
+
+        {/* Form */}
+        <ScrollReveal delay={0.18}>
+          <div className="recs__form-block">
+            <h3 className="recs__form-title">Leave a recommendation</h3>
+            <form className="recs__form" onSubmit={handleSubmit} noValidate>
+              <div className="recs__form-row">
+                <div className="recs__field">
+                  <label htmlFor="rec-name" className="recs__label">
+                    Name <span className="recs__optional">(optional)</span>
+                  </label>
+                  <input
+                    id="rec-name"
+                    type="text"
+                    className="recs__input"
+                    placeholder="Your name"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    maxLength={60}
+                  />
+                </div>
+                <div className="recs__field">
+                  <label htmlFor="rec-role" className="recs__label">
+                    Role <span className="recs__optional">(optional)</span>
+                  </label>
+                  <input
+                    id="rec-role"
+                    type="text"
+                    className="recs__input"
+                    placeholder="e.g. Teacher, Classmate"
+                    value={role}
+                    onChange={e => setRole(e.target.value)}
+                    maxLength={60}
+                  />
+                </div>
+              </div>
+
+              <div className="recs__field">
+                <label htmlFor="rec-text" className="recs__label">
+                  Message <span className="recs__required">*</span>
+                </label>
+                <textarea
+                  id="rec-text"
+                  className={`recs__textarea ${error ? 'recs__textarea--error' : ''}`}
+                  placeholder="Share your experience working with Glen..."
+                  value={text}
+                  onChange={e => { setText(e.target.value); if (error) setError(''); }}
+                  rows={4}
+                  maxLength={400}
+                  aria-describedby={error ? 'rec-error' : undefined}
+                />
+                <div className="recs__field-footer">
+                  {error && (
+                    <span id="rec-error" className="recs__error" role="alert">
+                      {error}
+                    </span>
+                  )}
+                  <span className="recs__char-count">
+                    {text.length}/400
+                  </span>
+                </div>
+              </div>
+
+              <button type="submit" className="recs__submit">
+                Submit Recommendation
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                  <path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </ScrollReveal>
       </div>
 
       {/* Success modal */}
@@ -221,55 +218,126 @@ export default function Recommendations() {
       </AnimatePresence>
 
       <style>{`
-        .recs__layout {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 80px;
-          align-items: start;
-        }
-
+        /* ── Heading ────────────────────────────────────── */
         .recs__heading {
           font-size: clamp(28px, 4vw, 48px);
           color: var(--text);
-          margin-bottom: 16px;
+          margin-bottom: 14px;
           line-height: 1.05;
+          letter-spacing: -0.03em;
         }
         .recs__sub {
           font-size: 14px;
           color: var(--text-muted);
           line-height: 1.7;
           margin-bottom: 48px;
+          max-width: 480px;
         }
 
-        /* Form */
-        .recs__form-wrap {
-          background: var(--bg-elevated);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-lg);
-          padding: 32px;
+        /* ── Entries (stacked list) ────────────────────── */
+        .recs__entries {
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+        }
+
+        .rec-entry {
+          display: flex;
+          gap: 20px;
+          padding: 32px 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .rec-entry:first-child {
+          border-top: 1px solid var(--border);
+        }
+
+        .rec-entry__accent {
+          width: 2px;
+          flex-shrink: 0;
+          background: var(--green);
+          border-radius: 1px;
+          opacity: 0.25;
+          transition: opacity 0.3s var(--ease);
+        }
+        .rec-entry:hover .rec-entry__accent {
+          opacity: 0.7;
+        }
+
+        .rec-entry__body {
+          flex: 1;
+        }
+
+        .rec-entry__text {
+          font-size: 14px;
+          line-height: 1.8;
+          color: var(--text-muted);
+          margin-bottom: 16px;
+          font-style: italic;
+        }
+
+        .rec-entry__footer {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .rec-entry__dash {
+          width: 16px;
+          height: 1px;
+          background: var(--text-subtle);
+          flex-shrink: 0;
+        }
+        .rec-entry__author {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+        .rec-entry__name {
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--text);
+          font-family: var(--font-display);
+          letter-spacing: -0.01em;
+        }
+        .rec-entry__role {
+          font-family: var(--font-mono);
+          font-size: 10.5px;
+          color: var(--text-muted);
+          letter-spacing: 0.06em;
+        }
+
+        /* ── Divider between entries and form ───────────── */
+        .recs__divider {
+          height: 1px;
+          background: var(--border);
+          margin: 56px 0 48px;
+        }
+
+        /* ── Form (editorial, no card wrap) ─────────────── */
+        .recs__form-block {
+          max-width: 640px;
         }
         .recs__form-title {
-          font-size: 15px;
+          font-size: 16px;
           font-family: var(--font-display);
           font-weight: 700;
           color: var(--text);
-          margin-bottom: 24px;
+          margin-bottom: 28px;
           letter-spacing: -0.01em;
         }
         .recs__form {
           display: flex;
           flex-direction: column;
-          gap: 18px;
+          gap: 20px;
         }
         .recs__form-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 14px;
+          gap: 16px;
         }
         .recs__field {
           display: flex;
           flex-direction: column;
-          gap: 7px;
+          gap: 8px;
         }
         .recs__label {
           font-family: var(--font-mono);
@@ -283,16 +351,17 @@ export default function Recommendations() {
 
         .recs__input,
         .recs__textarea {
-          background: var(--bg-subtle);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-sm);
-          padding: 11px 14px;
-          font-size: 13.5px;
+          background: transparent;
+          border: none;
+          border-bottom: 1px solid var(--border);
+          padding: 10px 0;
+          font-size: 14px;
           color: var(--text);
           outline: none;
-          transition: border-color 0.22s var(--ease), box-shadow 0.22s var(--ease);
+          transition: border-color 0.25s var(--ease);
           resize: none;
           width: 100%;
+          border-radius: 0;
         }
         .recs__input::placeholder,
         .recs__textarea::placeholder {
@@ -300,12 +369,10 @@ export default function Recommendations() {
         }
         .recs__input:focus,
         .recs__textarea:focus {
-          border-color: rgba(34, 197, 94, 0.5);
-          box-shadow: 0 0 0 3px var(--green-dim);
+          border-color: var(--green);
         }
         .recs__textarea--error {
-          border-color: rgba(239, 68, 68, 0.5);
-          box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+          border-color: #ef4444;
         }
         .recs__field-footer {
           display: flex;
@@ -330,7 +397,7 @@ export default function Recommendations() {
           align-items: center;
           gap: 8px;
           align-self: flex-start;
-          padding: 12px 26px;
+          padding: 12px 28px;
           background: var(--green);
           color: #040d07;
           border-radius: 100px;
@@ -341,86 +408,9 @@ export default function Recommendations() {
           font-family: var(--font-body);
         }
         .recs__submit:hover {
-          background: #16a34a;
+          filter: brightness(1.1);
           transform: translateY(-2px);
           box-shadow: 0 10px 28px var(--green-glow);
-        }
-
-        /* Recommendation cards */
-        .recs__cards {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-
-        .rec-card {
-          position: relative;
-          background: var(--bg-elevated);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-md);
-          padding: 28px 28px 24px;
-          transition: border-color 0.25s var(--ease);
-          overflow: hidden;
-        }
-        .rec-card:hover {
-          border-color: rgba(34, 197, 94, 0.2);
-        }
-        .rec-card__quote {
-          position: absolute;
-          top: 14px;
-          right: 22px;
-          font-family: var(--font-display);
-          font-size: 72px;
-          font-weight: 800;
-          color: var(--green-dim);
-          line-height: 1;
-          user-select: none;
-        }
-        .rec-card__text {
-          font-size: 13.5px;
-          line-height: 1.75;
-          color: var(--text-muted);
-          margin-bottom: 20px;
-          position: relative;
-          z-index: 1;
-          font-style: italic;
-        }
-        .rec-card__footer {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        .rec-card__avatar {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: var(--green-dim);
-          border: 1px solid rgba(34, 197, 94, 0.2);
-          color: var(--green);
-          font-family: var(--font-display);
-          font-weight: 700;
-          font-size: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-        .rec-card__author {
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
-        }
-        .rec-card__name {
-          font-size: 13px;
-          font-weight: 600;
-          color: var(--text);
-          font-family: var(--font-display);
-        }
-        .rec-card__role {
-          font-family: var(--font-mono);
-          font-size: 10.5px;
-          color: var(--text-muted);
-          letter-spacing: 0.06em;
         }
 
         /* Modal */
@@ -439,7 +429,7 @@ export default function Recommendations() {
         .modal-box {
           background: var(--bg-elevated);
           border: 1px solid var(--border-hover);
-          border-radius: var(--radius-lg);
+          border-radius: 8px;
           padding: 48px 40px;
           text-align: center;
           max-width: 360px;
@@ -476,13 +466,7 @@ export default function Recommendations() {
           color: var(--green);
         }
 
-        @media (max-width: 900px) {
-          .recs__layout {
-            grid-template-columns: 1fr;
-            gap: 56px;
-          }
-        }
-        @media (max-width: 480px) {
+        @media (max-width: 640px) {
           .recs__form-row { grid-template-columns: 1fr; }
         }
       `}</style>

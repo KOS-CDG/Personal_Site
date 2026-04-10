@@ -35,12 +35,9 @@ export default function Nav() {
   const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [themeMenuOpen, setThemeMenuOpen] = useState(false); // kept for mobile menu compat
+  const [_themeMenuOpen, setThemeMenuOpen] = useState(false); // kept for mobile menu compat
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const lastY = useRef(0);
-  const searchRef = useRef<HTMLInputElement>(null);
 
   const { theme, setTheme } = useTheme();
 
@@ -71,11 +68,6 @@ export default function Nav() {
   }, [mobileOpen]);
 
   useEffect(() => {
-    if (searchOpen) { setTimeout(() => searchRef.current?.focus(), 80); }
-    else { setSearchQuery(''); }
-  }, [searchOpen]);
-
-  useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (themeMenuRef.current && !themeMenuRef.current.contains(e.target as Node)) setThemeMenuOpen(false);
     };
@@ -85,8 +77,7 @@ export default function Nav() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); setSearchOpen(o => !o); }
-      if (e.key === 'Escape') { setSearchOpen(false); setThemeMenuOpen(false); }
+      if (e.key === 'Escape') { setThemeMenuOpen(false); }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
@@ -94,18 +85,6 @@ export default function Nav() {
 
   const closeMenu = () => setMobileOpen(false);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const query = searchQuery.toLowerCase().trim();
-    if (!query) return;
-    const match = navItems.find(n => n.label.toLowerCase().includes(query));
-    if (match) {
-      const el = document.querySelector(match.href);
-      if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); setSearchOpen(false); }
-    }
-  };
-
-  const currentThemeObj = THEMES.find(t => t.value === theme) ?? THEMES[2];
 
   return (
     <>
@@ -149,18 +128,6 @@ export default function Nav() {
 
           {/* Right controls */}
           <div className="nav__controls">
-            <button
-              id="nav-search-btn"
-              className={`nav__icon-btn ${searchOpen ? 'nav__icon-btn--active' : ''}`}
-              onClick={() => setSearchOpen(o => !o)}
-              aria-label="Open search"
-              title="Search (Ctrl+K)"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
-                <path d="M10 10l3.5 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-              </svg>
-            </button>
 
             {/* ── UI Mode switcher — prominent pill ── */}
             <div
@@ -199,53 +166,6 @@ export default function Nav() {
           </div>
         </div>
 
-        {/* Search bar */}
-        <AnimatePresence>
-          {searchOpen && (
-            <motion.div
-              className="nav__search-bar"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <form onSubmit={handleSearch} className="nav__search-form container">
-                <div className="nav__search-input-wrap">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="nav__search-icon">
-                    <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
-                    <path d="M10 10l3.5 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-                  </svg>
-                  <input
-                    ref={searchRef}
-                    id="nav-search-input"
-                    type="text"
-                    className="nav__search-input"
-                    placeholder="Search sections… (e.g. Projects, Skills)"
-                    value={searchQuery}
-                    onChange={e => setSearchQuery(e.target.value)}
-                    aria-label="Search portfolio sections"
-                  />
-                  {searchQuery && (
-                    <button type="button" className="nav__search-clear" onClick={() => setSearchQuery('')} aria-label="Clear search">×</button>
-                  )}
-                  <kbd className="nav__search-kbd">ESC</kbd>
-                </div>
-                <div className="nav__search-suggestions">
-                  {navItems
-                    .filter(n => !searchQuery || n.label.toLowerCase().includes(searchQuery.toLowerCase()))
-                    .map(n => (
-                      <a key={n.href} href={n.href} className="nav__search-suggestion" onClick={() => setSearchOpen(false)}>
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                          <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        {n.label}
-                      </a>
-                    ))}
-                </div>
-              </form>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.header>
 
       {/* Mobile overlay */}

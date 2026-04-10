@@ -798,35 +798,12 @@ button, a, input {
 /* ── LIGHT MODE: Resume document feel ──────────────────────── */
 [data-theme="light"] .section::before { display: none; }
 
-/* Light: project cards feel like resume entries */
-[data-theme="light"] .project-card {
-  border-left: 3px solid var(--green);
-  border-top: none;
-  border-right: none;
-  border-bottom: 1px solid var(--border);
-  border-radius: 0;
-  background: var(--bg-elevated);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+/* Light: project entries editorial */
+[data-theme="light"] .proj-entry {
+  border-color: rgba(0,0,0,0.07);
 }
-[data-theme="light"] .project-card:hover {
-  border-left-color: var(--green-muted);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-}
-[data-theme="light"] .project-card__glow { display: none; }
-
-/* Light: cert cards clean white */
-[data-theme="light"] .cert-card {
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-}
-[data-theme="light"] .cert-card:hover {
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-}
-
-/* Light: skill bars get label-like appearance */
-[data-theme="light"] .skill-item__track {
-  background: rgba(0,0,0,0.06);
-  height: 4px;
-  border-radius: 4px;
+[data-theme="light"] .proj-entry__title-link:hover {
+  color: var(--green);
 }
 
 /* Light: footer clean separation */
@@ -851,40 +828,23 @@ button, a, input {
 
 /* ── DARK MODE: Terminal hacker feel ────────────────────────── */
 
-/* Dark: project cards feel like terminal windows */
-[data-theme="dark"] .project-card {
+/* Dark: project entries neon borders */
+[data-theme="dark"] .proj-entry {
   border-color: rgba(0, 255, 70, 0.08);
-  background: #080808;
 }
-[data-theme="dark"] .project-card--featured {
-  background: linear-gradient(135deg, #080808 0%, rgba(0,255,70,0.03) 100%);
+[data-theme="dark"] .proj-entry--featured {
   border-color: rgba(0, 255, 70, 0.14);
 }
-[data-theme="dark"] .project-card:hover {
-  border-color: rgba(0, 255, 70, 0.25);
-  box-shadow: 0 0 20px rgba(0, 255, 70, 0.06);
-}
-[data-theme="dark"] .project-card__num,
-[data-theme="dark"] .project-card__featured-badge {
+[data-theme="dark"] .proj-entry__num,
+[data-theme="dark"] .proj-entry__featured {
   text-shadow: 0 0 8px rgba(0,255,70,0.4);
 }
 
-/* Dark: cert cards terminal feel */
-[data-theme="dark"] .cert-card {
-  border-color: rgba(0, 255, 70, 0.07);
-  background: #070707;
-}
-[data-theme="dark"] .cert-card:hover,
-[data-theme="dark"] .cert-card--expanded {
-  box-shadow: 0 0 24px rgba(0, 255, 70, 0.08);
-}
-
-/* Dark: about card terminal mock */
-[data-theme="dark"] .about__card {
+/* Dark: about identity terminal */
+[data-theme="dark"] .about__identity {
   border-color: rgba(0, 255, 70, 0.08);
-  background: #070707;
 }
-[data-theme="dark"] .about__card-monogram {
+[data-theme="dark"] .about__identity-monogram {
   -webkit-text-stroke-color: rgba(0, 255, 70, 0.06);
 }
 
@@ -907,46 +867,25 @@ button, a, input {
 
 /* ── NAVY MODE: Luxury signature feel ───────────────────────── */
 
-/* Navy: project cards glass panels */
-[data-theme="navy"] .project-card {
-  background: rgba(13, 24, 41, 0.6);
+/* Navy: project entries glass borders */
+[data-theme="navy"] .proj-entry {
   border-color: rgba(126, 184, 247, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
-[data-theme="navy"] .project-card--featured {
-  background: linear-gradient(135deg, rgba(13,24,41,0.8) 0%, rgba(126,184,247,0.04) 100%);
+[data-theme="navy"] .proj-entry--featured {
   border-color: rgba(126, 184, 247, 0.14);
 }
-[data-theme="navy"] .project-card:hover {
-  border-color: rgba(126, 184, 247, 0.22);
-  box-shadow: 0 8px 40px rgba(126, 184, 247, 0.08);
-}
 
-/* Navy: cert cards luxury glass */
-[data-theme="navy"] .cert-card {
-  background: rgba(13, 24, 41, 0.7);
+/* Navy: about identity glass */
+[data-theme="navy"] .about__identity {
   border-color: rgba(126, 184, 247, 0.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
-[data-theme="navy"] .cert-card:hover,
-[data-theme="navy"] .cert-card--expanded {
-  border-color: rgba(126, 184, 247, 0.22);
-  box-shadow: 0 8px 32px rgba(126, 184, 247, 0.10), 0 0 0 1px rgba(126,184,247,0.12) inset;
-}
-
-/* Navy: about card deep glass */
-[data-theme="navy"] .about__card {
-  background: rgba(13, 24, 41, 0.6);
-  border-color: rgba(126, 184, 247, 0.08);
-  backdrop-filter: blur(12px);
-}
-[data-theme="navy"] .about__card-monogram {
+[data-theme="navy"] .about__identity-monogram {
   -webkit-text-stroke-color: rgba(126, 184, 247, 0.05);
 }
-[data-theme="navy"] .about__card-badge {
-  border-color: rgba(126, 184, 247, 0.2);
+
+/* Navy: recommendation accent blue */
+[data-theme="navy"] .rec-entry__accent {
+  background: var(--gold, #c8a96e);
 }
 
 /* Navy: heading line stroke uses gold */
@@ -1045,39 +984,8 @@ button, a, input {
   font-size: 12px;
 }
 
-/* ── Certs: resume-document style ───────────────────────────── */
-[data-theme="light"] .cert-card {
-  border-radius: 2px;
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-[data-theme="light"] .cert-card:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 0 0 1px var(--cert-accent, var(--green)) inset;
-}
-[data-theme="light"] .cert-card__skill {
-  border-radius: 2px;
-}
-[data-theme="light"] .cert-card__type-badge {
-  border-radius: 2px;
-}
-
-/* ── Skills in Resume mode: clean bar chart ──────────────────── */
-[data-theme="light"] .skill-item {
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  padding-bottom: 12px;
-}
-
-/* ── About section: document feel ───────────────────────────── */
-[data-theme="light"] .about__card {
-  border-radius: 4px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-}
-
-/* ── Projects in Resume mode: editorial list ─────────────────── */
-[data-theme="light"] .project-card {
-  border-radius: 4px;
-}
-[data-theme="light"] .project-card__tags .tag {
+/* ── Projects in Resume mode: clean editorial ────────────────── */
+[data-theme="light"] .proj-entry__tags .tag {
   border-radius: 2px;
   background: rgba(26,107,60,0.07);
   border-color: rgba(26,107,60,0.15);
@@ -1093,6 +1001,11 @@ button, a, input {
 }
 [data-theme="light"] .carousel__skill {
   border-radius: 2px;
+}
+
+/* ── About section: clean editorial ─────────────────────────── */
+[data-theme="light"] .about__identity {
+  border-color: rgba(0,0,0,0.07);
 }
 
 /* ── Resume hero area: clean document top ───────────────────── */
@@ -1121,12 +1034,6 @@ button, a, input {
   border-radius: 0;
 }
 
-/* ── Project cards: terminal frame ──────────────────────────── */
-[data-theme="dark"] .project-card {
-  border-radius: 4px;
-  box-shadow: 0 0 0 1px rgba(0,255,70,0.06) inset;
-}
-
 /* ═══════════════════════════════════════════════════════════════
    SIGNATURE UI — PREMIUM GOLD POLISH  (navy mode)
    ════════════════════════════════════════════════════════════ */
@@ -1150,9 +1057,8 @@ button, a, input {
 }
 
 /* ── Projects gold highlight ─────────────────────────────────── */
-[data-theme="navy"] .project-card:hover {
-  border-color: rgba(200,169,110,0.30);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(200,169,110,0.15) inset;
+[data-theme="navy"] .proj-entry:hover {
+  border-color: rgba(200,169,110,0.20);
 }
 
 /* ── Gold dot color override ─────────────────────────────────── */
@@ -1172,12 +1078,6 @@ button, a, input {
 }
 
 /* Keep monospace elements untouched (code, labels, badges) */
-[data-theme="light"] .cert-card__type-badge,
-[data-theme="light"] .cert-card__courses,
-[data-theme="light"] .cert-card__issuer,
-[data-theme="light"] .cert-card__platform,
-[data-theme="light"] .cert-card__date,
-[data-theme="light"] .cert-card__verify,
 [data-theme="light"] .carousel__label,
 [data-theme="light"] .carousel__counter,
 [data-theme="light"] .carousel__issuer,
@@ -1190,8 +1090,8 @@ button, a, input {
 [data-theme="light"] .hero__resume-title-label,
 [data-theme="light"] .hero__resume-meta-key,
 [data-theme="light"] .hero__resume-meta-val,
-[data-theme="light"] .skill-item__label,
-[data-theme="light"] .skill-item__pct,
+[data-theme="light"] .skill-row__pct,
+[data-theme="light"] .skills__cat-title,
 [data-theme="light"] .tag,
 [data-theme="light"] code,
 [data-theme="light"] pre {
@@ -1219,8 +1119,7 @@ button, a, input {
   font-family: 'Times New Roman', Georgia, Times, serif;
 }
 
-/* Cert card titles */
-[data-theme="light"] .cert-card__title,
+/* Carousel cert titles */
 [data-theme="light"] .carousel__title {
   font-family: 'Times New Roman', Georgia, Times, serif;
   letter-spacing: -0.02em;
@@ -1235,9 +1134,9 @@ button, a, input {
 /* Body text in TNR reads like a printed CV */
 [data-theme="light"] .hero__desc,
 [data-theme="light"] .about__para,
-[data-theme="light"] .cert-card__desc,
 [data-theme="light"] .carousel__desc,
-[data-theme="light"] .project-card__desc {
+[data-theme="light"] .proj-entry__desc,
+[data-theme="light"] .rec-entry__text {
   font-family: 'Times New Roman', Georgia, Times, serif;
   font-size: 15px;
   line-height: 1.8;

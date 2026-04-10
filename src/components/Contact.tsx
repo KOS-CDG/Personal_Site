@@ -1,6 +1,6 @@
 import { useState, useRef, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import emailjs from '@emailjs/browser'; // Moved to top-level for reliability on Vercel
+import emailjs from '@emailjs/browser';
 import ScrollReveal from './ui/ScrollReveal';
 import { contactInfo } from '../data/portfolio';
 
@@ -59,7 +59,6 @@ export default function Contact() {
     setFormState('sending');
 
     try {
-      // Send explicit object directly to EmailJS
       await emailjs.send(
         contactInfo.emailjsServiceId,
         contactInfo.emailjsTemplateId,
@@ -78,7 +77,6 @@ export default function Contact() {
       setFormState('error');
     }
 
-    // Reset status after delay
     setTimeout(() => setFormState('idle'), 4000);
   };
 
@@ -95,48 +93,44 @@ export default function Contact() {
           </div>
         </ScrollReveal>
 
+        {/* Heading */}
+        <ScrollReveal delay={0.06}>
+          <h2 className="contact__heading">
+            Let's build something{' '}
+            <span className="contact__heading-accent">together.</span>
+          </h2>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.12}>
+          <p className="contact__desc">
+            Whether you have a project idea, need a developer on your team,
+            or just want to say hi -- my inbox is open.
+          </p>
+        </ScrollReveal>
+
         <div className="contact__layout">
-          {/* Left: copy */}
+          {/* Left: info + socials */}
           <div className="contact__left">
-            <ScrollReveal delay={0.06}>
-              <h2 className="contact__heading">
-                Let's build<br />
-                something<br />
-                <span className="contact__heading-accent">together.</span>
-              </h2>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.14}>
-              <p className="contact__desc">
-                Whether you have a project idea, need a junior developer on your team,
-                or just want to say hi — my inbox is open.
-              </p>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.2}>
+            <ScrollReveal delay={0.16}>
               <div className="contact__info-list">
                 <a href={`mailto:${contactInfo.email}`} className="contact__info-item">
-                  <span className="contact__info-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="4" width="20" height="16" rx="2"/>
-                      <path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/>
-                    </svg>
-                  </span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/>
+                  </svg>
                   <span>{contactInfo.email}</span>
                 </a>
                 <div className="contact__info-item">
-                  <span className="contact__info-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                      <circle cx="12" cy="9" r="2.5"/>
-                    </svg>
-                  </span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                    <circle cx="12" cy="9" r="2.5"/>
+                  </svg>
                   <span>{contactInfo.location}</span>
                 </div>
               </div>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.26}>
+            <ScrollReveal delay={0.2}>
               <div className="contact__socials">
                 {socials.map(s => (
                   <a
@@ -148,6 +142,7 @@ export default function Contact() {
                     aria-label={s.label}
                   >
                     {s.icon}
+                    <span className="contact__social-label">{s.label}</span>
                   </a>
                 ))}
               </div>
@@ -198,7 +193,7 @@ export default function Contact() {
                   id="contact-message"
                   name="message"
                   className="contact__input contact__textarea"
-                  placeholder="Hey Glen, I'd love to talk about…"
+                  placeholder="Hey Glen, I'd love to talk about..."
                   value={fields.message}
                   onChange={handleChange}
                   rows={5}
@@ -223,14 +218,14 @@ export default function Contact() {
                       transition={{ duration: 0.22 }}
                     >
                       {formState === 'idle' && 'Send Message'}
-                      {formState === 'sending' && 'Sending…'}
+                      {formState === 'sending' && 'Sending...'}
                       {formState === 'success' && (
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                           Message Sent
                         </span>
                       )}
-                      {formState === 'error' && 'Failed — Try Again'}
+                      {formState === 'error' && 'Failed -- Try Again'}
                     </motion.span>
                   </AnimatePresence>
                 </button>
@@ -241,18 +236,12 @@ export default function Contact() {
       </div>
 
       <style>{`
-        .contact__layout {
-          display: grid;
-          grid-template-columns: 1fr 1.2fr;
-          gap: 80px;
-          align-items: start;
-        }
-
         .contact__heading {
-          font-size: clamp(36px, 6vw, 64px);
+          font-size: clamp(32px, 5vw, 56px);
           color: var(--text);
-          line-height: 1.0;
-          margin-bottom: 24px;
+          line-height: 1.05;
+          margin-bottom: 18px;
+          letter-spacing: -0.03em;
         }
         .contact__heading-accent { color: var(--green); }
 
@@ -260,14 +249,22 @@ export default function Contact() {
           font-size: 14.5px;
           line-height: 1.75;
           color: var(--text-muted);
-          margin-bottom: 36px;
-          max-width: 320px;
+          margin-bottom: 56px;
+          max-width: 460px;
         }
 
+        .contact__layout {
+          display: grid;
+          grid-template-columns: 0.8fr 1.2fr;
+          gap: 80px;
+          align-items: start;
+        }
+
+        /* ── Info list ──────────────────────────────────── */
         .contact__info-list {
           display: flex;
           flex-direction: column;
-          gap: 14px;
+          gap: 16px;
           margin-bottom: 36px;
         }
         .contact__info-item {
@@ -278,51 +275,47 @@ export default function Contact() {
           color: var(--text-muted);
           transition: color 0.22s var(--ease);
         }
-        a.contact__info-item:hover { color: var(--green); }
-        .contact__info-icon {
-          width: 32px;
-          height: 32px;
-          border-radius: var(--radius-sm);
-          background: var(--bg-subtle);
-          border: 1px solid var(--border);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        .contact__info-item svg {
           color: var(--green);
           flex-shrink: 0;
+          opacity: 0.7;
         }
+        a.contact__info-item:hover { color: var(--green); }
 
+        /* ── Socials ────────────────────────────────────── */
         .contact__socials {
           display: flex;
-          gap: 10px;
+          flex-direction: column;
+          gap: 0;
         }
         .contact__social-btn {
-          width: 40px;
-          height: 40px;
-          border-radius: var(--radius-sm);
-          background: var(--bg-elevated);
-          border: 1px solid var(--border);
           display: flex;
           align-items: center;
-          justify-content: center;
+          gap: 12px;
+          padding: 12px 0;
+          border-bottom: 1px solid var(--border);
           color: var(--text-muted);
-          transition: border-color 0.22s var(--ease), color 0.22s var(--ease), transform 0.22s var(--ease);
+          font-size: 13px;
+          font-family: var(--font-body);
+          transition: color 0.22s var(--ease);
+        }
+        .contact__social-btn:first-child {
+          border-top: 1px solid var(--border);
         }
         .contact__social-btn:hover {
-          border-color: var(--green);
           color: var(--green);
-          transform: translateY(-3px);
+        }
+        .contact__social-label {
+          font-family: var(--font-mono);
+          font-size: 12px;
+          letter-spacing: 0.04em;
         }
 
-        /* Form */
+        /* ── Form (underline style) ─────────────────────── */
         .contact__form {
-          background: var(--bg-elevated);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-lg);
-          padding: 40px;
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 24px;
         }
 
         .contact__field {
@@ -340,21 +333,21 @@ export default function Contact() {
         }
 
         .contact__input {
-          background: var(--bg-subtle);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-sm);
-          padding: 12px 16px;
+          background: transparent;
+          border: none;
+          border-bottom: 1px solid var(--border);
+          padding: 10px 0;
           font-size: 14px;
           color: var(--text);
           outline: none;
-          transition: border-color 0.22s var(--ease), box-shadow 0.22s var(--ease);
+          transition: border-color 0.25s var(--ease);
           width: 100%;
           resize: none;
+          border-radius: 0;
         }
         .contact__input::placeholder { color: var(--text-subtle); }
         .contact__input:focus {
-          border-color: rgba(34, 197, 94, 0.5);
-          box-shadow: 0 0 0 3px var(--green-dim);
+          border-color: var(--green);
         }
         .contact__input:disabled {
           opacity: 0.5;
@@ -365,12 +358,12 @@ export default function Contact() {
         }
 
         .contact__submit-row {
-          margin-top: 4px;
+          margin-top: 8px;
         }
         .contact__submit {
           width: 100%;
           padding: 14px;
-          border-radius: var(--radius-sm);
+          border-radius: 4px;
           font-size: 14px;
           font-weight: 700;
           font-family: var(--font-body);
@@ -389,7 +382,7 @@ export default function Contact() {
           color: #040d07;
         }
         .contact__submit--idle:hover:not(:disabled) {
-          background: #16a34a;
+          filter: brightness(1.1);
           box-shadow: 0 12px 32px var(--green-glow);
         }
         .contact__submit--sending {
@@ -410,12 +403,9 @@ export default function Contact() {
         @media (max-width: 860px) {
           .contact__layout {
             grid-template-columns: 1fr;
-            gap: 56px;
+            gap: 48px;
           }
           .contact__desc { max-width: 100%; }
-        }
-        @media (max-width: 480px) {
-          .contact__form { padding: 24px; }
         }
       `}</style>
     </section>

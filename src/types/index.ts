@@ -6,7 +6,7 @@ export interface Skill {
   level: number;
   label: string;
   icon: string;
-  category: 'Frontend' | 'Tools & Hardware';
+  category: 'Frontend' | 'Backend' | 'DevOps' | 'Design' | 'AI' | 'Tools & Hardware';
 }
 
 export interface Project {
@@ -16,8 +16,8 @@ export interface Project {
   year: string | number;
   bullets: string[];
   tags: string[];
-  featured?: boolean;  // The '?' makes this optional
-  link?: string;       // The '?' makes this optional (FIXES THE VERCEL ERROR)
+  featured?: boolean;
+  link?: string;
 }
 
 export interface Recommendation {
@@ -45,4 +45,6 @@ export interface Certificate {
   verifyUrl: string;
   description: string;
   icon: 'google' | 'ibm' | 'ibm-skillup';
+  /** Path to the actual certificate image in /public/certs/ — e.g. '/certs/cert-1.jpg' */
+  image?: string;
 }
