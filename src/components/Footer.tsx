@@ -114,7 +114,7 @@ export default function Footer() {
           font-size: 11px;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: var(--text-subtle);
+          color: var(--text-muted);
           white-space: nowrap;
         }
         .footer__marquee-dot {
@@ -200,7 +200,7 @@ export default function Footer() {
           font-family: var(--font-mono);
           font-size: 10.5px;
           letter-spacing: 0.06em;
-          color: var(--text-subtle);
+          color: var(--text-muted);
         }
 
         @media (max-width: 720px) {

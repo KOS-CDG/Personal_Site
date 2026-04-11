@@ -1,9 +1,10 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useTheme } from '../App';
-import FlappyGoldBar from './ui/FlappyGoldBar';
-import TicTacToe from './ui/TicTacToe';
+
+const FlappyGoldBar = lazy(() => import('./ui/FlappyGoldBar'));
+const TicTacToe = lazy(() => import('./ui/TicTacToe'));
 
 const ROLES = [
   'Full Stack Developer',
@@ -188,6 +189,7 @@ export default function Hero() {
               </div>
               <div className="hero__avatar hero__avatar--terminal" onClick={() => handleAvatarClick('ttt')} style={{ cursor: 'pointer' }}>
                 <img src="/profilee.jpg" alt="Glen Dhale Caparros"
+                  fetchPriority="high"
                   className="hero__avatar-img hero__avatar-img--terminal"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -228,6 +230,7 @@ export default function Hero() {
               <div className="hero__resume-portrait">
                 <div className="hero__resume-portrait-inner">
                   <img src="/profilee.jpg" alt="Glen Dhale Caparros"
+                    fetchPriority="high"
                     className="hero__avatar-img hero__avatar-img--resume"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -276,6 +279,7 @@ export default function Hero() {
               {/* Avatar with liquid morphing border */}
               <div className="hero__avatar hero__avatar--liquid" onClick={() => handleAvatarClick('flappy')} style={{ cursor: 'pointer' }}>
                 <img src="/profilee.jpg" alt="Glen Dhale Caparros"
+                  fetchPriority="high"
                   className="hero__avatar-img"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -313,12 +317,14 @@ export default function Hero() {
         </motion.div>
 
         {/* Easter egg game overlays */}
-        <AnimatePresence>
-          {showFlappy && theme === 'navy' && <FlappyGoldBar onClose={() => setShowFlappy(false)} />}
-        </AnimatePresence>
-        <AnimatePresence>
-          {showTTT && theme === 'dark' && <TicTacToe onClose={() => setShowTTT(false)} />}
-        </AnimatePresence>
+        <Suspense fallback={null}>
+          <AnimatePresence>
+            {showFlappy && theme === 'navy' && <FlappyGoldBar onClose={() => setShowFlappy(false)} />}
+          </AnimatePresence>
+          <AnimatePresence>
+            {showTTT && theme === 'dark' && <TicTacToe onClose={() => setShowTTT(false)} />}
+          </AnimatePresence>
+        </Suspense>
 
         {/* Scroll indicator */}
         <motion.div

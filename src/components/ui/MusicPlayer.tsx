@@ -13,13 +13,14 @@ export default function MusicPlayer() {
   const visible = true;
 
   useEffect(() => {
-    const audio = new Audio('/music.mp4');
+    const audio = new Audio('/music.mp3');
     audio.loop = true;
     audio.volume = 0.22;
+    audio.preload = 'metadata';
     audioRef.current = audio;
 
     audio.addEventListener('canplaythrough', () => setReady(true));
-    audio.load();
+    // Let browser buffer naturally instead of forcing load()
 
     return () => {
       audio.pause();
